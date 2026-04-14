@@ -665,8 +665,7 @@
     const q       = state.questions[state.idx];
     const correct = q.en.toLowerCase();
     const ok = typed === correct
-            || typed === correct.replace(/[.!?]$/,'')
-            || lev(typed, correct) <= 1;
+            || typed === correct.replace(/[.!?]$/,'');
     const fb = document.getElementById('feedback');
     if (ok) {
       inp.style.borderColor = '#48bb78';
