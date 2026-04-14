@@ -5,207 +5,349 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>英検チャレンジ！</title>
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 
     body {
-      font-family: 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
-      background: linear-gradient(135deg, #667eea, #764ba2);
+      font-family: 'Hiragino Maru Gothic ProN', 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
+      background: linear-gradient(160deg, #ffd6e7 0%, #e8d5f5 50%, #d5eaff 100%);
       min-height: 100vh;
       display: flex;
       justify-content: center;
-      align-items: center;
-      padding: 20px;
+      align-items: flex-start;
+      padding: 16px;
     }
 
+    /* ===== メインカード ===== */
     .app {
-      background: white;
-      border-radius: 30px;
-      padding: 30px;
-      max-width: 780px;
+      background: #fff9fd;
+      border-radius: 36px;
+      padding: 28px 24px 32px;
+      max-width: 820px;
       width: 100%;
-      min-height: 80vh;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      min-height: 92vh;
+      box-shadow: 0 8px 40px rgba(220,130,200,0.25), 0 2px 8px rgba(0,0,0,0.08);
+      position: relative;
+      overflow: hidden;
+    }
+    /* かわいい背景の飾り */
+    .app::before {
+      content: '🌸✨💫🌟💕';
+      position: absolute; top: -10px; right: 10px;
+      font-size: 1.4rem; opacity: 0.18; letter-spacing: 6px;
+      pointer-events: none;
     }
 
     .screen { display: none; }
     .screen.active { display: block; }
 
-    h1 {
-      font-size: 2rem;
+    /* ===== 共通タイトル ===== */
+    .page-title {
+      font-size: 1.9rem;
+      font-weight: bold;
       text-align: center;
-      color: #5c35b0;
-      margin-bottom: 8px;
+      background: linear-gradient(90deg, #ff6ba8, #c77dff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 6px;
+    }
+    .page-sub {
+      text-align: center;
+      color: #b088c0;
+      font-size: 0.95rem;
+      margin-bottom: 22px;
     }
 
-    .subtitle {
-      text-align: center;
-      color: #888;
-      margin-bottom: 24px;
-    }
-
+    /* ===== 共通ボタン ===== */
     .btn {
-      display: block;
+      display: flex;
+      align-items: center;
+      gap: 12px;
       width: 100%;
-      padding: 18px;
+      padding: 20px 22px;
       margin: 10px 0;
       border: none;
-      border-radius: 16px;
-      font-size: 1.2rem;
+      border-radius: 22px;
+      font-size: 1.15rem;
       font-weight: bold;
       color: white;
       cursor: pointer;
-      transition: transform 0.1s;
+      transition: transform 0.12s, box-shadow 0.12s;
+      box-shadow: 0 5px 16px rgba(0,0,0,0.13);
+      touch-action: manipulation;
+      text-align: left;
     }
-    .btn:active { transform: scale(0.97); }
+    .btn:active { transform: scale(0.96); box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
+    .btn .icon { font-size: 1.6rem; flex-shrink: 0; }
+    .btn .label { display: flex; flex-direction: column; }
+    .btn .label small { font-size: 0.75rem; font-weight: normal; opacity: 0.9; margin-top: 2px; }
 
-    .btn-purple { background: linear-gradient(135deg, #667eea, #764ba2); }
-    .btn-pink   { background: linear-gradient(135deg, #f093fb, #f5576c); }
-    .btn-blue   { background: linear-gradient(135deg, #4facfe, #00f2fe); }
-    .btn-green  { background: linear-gradient(135deg, #43e97b, #38f9d7); }
-    .btn-orange { background: linear-gradient(135deg, #fa709a, #fee140); }
-    .btn-red    { background: linear-gradient(135deg, #f5365c, #f56036); }
+    .btn-pink   { background: linear-gradient(135deg, #ff9ac1, #ff6ba8); }
+    .btn-purple { background: linear-gradient(135deg, #d4a4ff, #a855f7); }
+    .btn-blue   { background: linear-gradient(135deg, #93c5fd, #3b82f6); }
+    .btn-mint   { background: linear-gradient(135deg, #6ee7b7, #10b981); }
+    .btn-peach  { background: linear-gradient(135deg, #fca5a5, #f97316); }
+    .btn-yellow { background: linear-gradient(135deg, #fde68a, #f59e0b); color: #7c4a00; }
+    .btn-red    { background: linear-gradient(135deg, #f87171, #dc2626); }
 
+    /* ===== もどるボタン ===== */
     .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
       background: none;
-      border: 2px solid #ddd;
-      border-radius: 10px;
-      padding: 8px 16px;
-      color: #888;
+      border: 2px solid #e8d0f0;
+      border-radius: 20px;
+      padding: 8px 18px;
+      color: #c077e0;
       cursor: pointer;
-      margin-bottom: 16px;
+      margin-bottom: 18px;
       font-size: 0.95rem;
+      font-weight: bold;
+      touch-action: manipulation;
+    }
+    .back-btn:active { opacity: 0.6; }
+
+    /* ===== ホーム画面 ===== */
+    .home-logo { text-align: center; font-size: 3.8rem; margin-bottom: 4px; }
+    .home-grade-label {
+      text-align: center;
+      font-size: 1rem;
+      color: #b088c0;
+      margin-bottom: 14px;
     }
 
-    /* ---- クイズ画面 ---- */
+    /* ===== クイズヘッダー ===== */
     .quiz-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       margin-bottom: 10px;
-      font-size: 0.95rem;
-      color: #666;
     }
-    .quiz-score { font-weight: bold; color: #f5576c; font-size: 1.1rem; }
-
-    .progress-bar-bg {
-      background: #eee;
-      border-radius: 10px;
-      height: 12px;
-      margin-bottom: 20px;
-      overflow: hidden;
-    }
-    .progress-bar-fill {
-      height: 100%;
-      background: linear-gradient(90deg, #667eea, #764ba2);
-      border-radius: 10px;
-      transition: width 0.3s;
-    }
-
-    .question-box {
-      background: #f7f0ff;
+    .q-badge {
+      background: linear-gradient(135deg, #ff9ac1, #c77dff);
+      color: white;
+      padding: 6px 16px;
       border-radius: 20px;
-      padding: 28px 20px;
+      font-size: 0.9rem;
+      font-weight: bold;
+    }
+    .q-progress { font-size: 0.95rem; color: #b088c0; font-weight: bold; }
+    .q-score    { font-size: 1.1rem; font-weight: bold; color: #ff6ba8; }
+
+    /* プログレスバー（ハート型） */
+    .prog-bg {
+      background: #f3d4ef;
+      border-radius: 20px;
+      height: 14px;
+      margin-bottom: 18px;
+      overflow: hidden;
+      position: relative;
+    }
+    .prog-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #ff9ac1, #c77dff, #93c5fd);
+      border-radius: 20px;
+      transition: width 0.4s cubic-bezier(.4,0,.2,1);
+    }
+
+    /* ===== 問題カード ===== */
+    .question-card {
+      background: linear-gradient(135deg, #fff0f8, #f5e8ff);
+      border: 3px solid #f0c8e8;
+      border-radius: 26px;
+      padding: 30px 20px;
       text-align: center;
       margin-bottom: 20px;
+      position: relative;
     }
-    .question-label { color: #888; font-size: 0.9rem; margin-bottom: 8px; }
-    .question-text  { font-size: 1.8rem; font-weight: bold; color: #333; }
-    .question-hint  { color: #aaa; font-size: 0.85rem; margin-top: 8px; }
+    .question-card::after {
+      content: '💭';
+      position: absolute;
+      top: -14px; left: 50%;
+      transform: translateX(-50%);
+      font-size: 1.6rem;
+    }
+    .q-type-badge {
+      display: inline-block;
+      padding: 4px 14px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    .q-type-badge.vocab { background: #fce8ff; color: #a855f7; }
+    .q-type-badge.sent  { background: #ffe8f4; color: #ff6ba8; }
+    .q-label { color: #c077e0; font-size: 0.88rem; margin-bottom: 8px; }
+    .q-text  { font-size: 2rem; font-weight: bold; color: #4a2060; line-height: 1.3; }
+    .q-hint  { color: #d4a0e8; font-size: 0.9rem; margin-top: 10px; }
 
+    /* ===== 選択肢 ===== */
     .options-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 12px;
+      gap: 14px;
       margin-bottom: 14px;
     }
     .opt-btn {
-      padding: 18px 10px;
-      border: 3px solid #e0e0e0;
-      border-radius: 14px;
+      padding: 20px 10px;
+      border: 3px solid #ecd5f8;
+      border-radius: 20px;
       background: white;
-      font-size: 1rem;
+      font-size: 1.05rem;
       font-weight: bold;
-      color: #333;
+      color: #5a2080;
       cursor: pointer;
-      transition: transform 0.1s;
+      transition: transform 0.12s, border-color 0.15s;
+      touch-action: manipulation;
+      line-height: 1.3;
     }
-    .opt-btn:active { transform: scale(0.96); }
-    .opt-btn.correct { background: #d4edda; border-color: #48bb78; color: #276749; }
-    .opt-btn.wrong   { background: #ffe0e0; border-color: #fc8181; color: #742a2a; }
-    .opt-btn.reveal  { background: #d4edda; border-color: #48bb78; color: #276749; }
+    .opt-btn:active:not(:disabled) { transform: scale(0.95); }
+    .opt-btn.correct { background: #d4f7e8; border-color: #34d399; color: #065f46; }
+    .opt-btn.wrong   { background: #ffe4ef; border-color: #fb7185; color: #9f1239; }
+    .opt-btn.reveal  { background: #d4f7e8; border-color: #34d399; color: #065f46; }
     .opt-btn:disabled { cursor: default; }
 
+    /* ===== 入力欄 ===== */
     .type-input {
       width: 100%;
-      padding: 16px;
-      border: 3px solid #ddd;
-      border-radius: 14px;
+      padding: 18px;
+      border: 3px solid #ecd5f8;
+      border-radius: 18px;
       font-size: 1.2rem;
       text-align: center;
       outline: none;
-      margin-bottom: 10px;
+      margin-bottom: 12px;
+      color: #4a2060;
+      background: #fdf5ff;
     }
-    .type-input:focus { border-color: #667eea; }
+    .type-input:focus { border-color: #c77dff; background: white; }
 
+    /* ===== フィードバック ===== */
     .feedback {
       display: none;
-      padding: 12px;
-      border-radius: 12px;
+      padding: 14px 16px;
+      border-radius: 16px;
       text-align: center;
       font-weight: bold;
-      font-size: 1rem;
-      margin-bottom: 10px;
+      font-size: 1.05rem;
+      margin-bottom: 12px;
     }
-    .feedback.ok  { display: block; background: #d4edda; color: #276749; }
-    .feedback.ng  { display: block; background: #ffe0e0; color: #742a2a; }
+    .feedback.ok { display: block; background: #d4f7e8; color: #065f46; border: 2px solid #34d399; }
+    .feedback.ng { display: block; background: #ffe4ef; color: #9f1239; border: 2px solid #fb7185; }
 
+    /* ===== つぎへボタン ===== */
     .next-btn {
       display: none;
       width: 100%;
-      padding: 16px;
+      padding: 18px;
       border: none;
-      border-radius: 14px;
-      background: linear-gradient(135deg, #43e97b, #38f9d7);
+      border-radius: 22px;
+      background: linear-gradient(135deg, #ffd6e7, #c77dff);
       color: white;
       font-size: 1.2rem;
       font-weight: bold;
       cursor: pointer;
+      box-shadow: 0 5px 16px rgba(199,125,255,0.4);
+      touch-action: manipulation;
     }
     .next-btn.show { display: block; }
+    .next-btn:active { transform: scale(0.97); }
 
-    /* ---- けっか画面 ---- */
-    .result-center { text-align: center; padding: 10px 0; }
-    .result-emoji  { font-size: 5rem; }
-    .result-title  { font-size: 2rem; font-weight: bold; margin: 10px 0 4px; }
-    .result-title.pass { color: #48bb78; }
-    .result-title.fail { color: #fc8181; }
-    .score-box {
-      background: #f7f0ff;
-      border-radius: 20px;
+    /* ===== けっか画面 ===== */
+    .result-top { text-align: center; padding: 8px 0 16px; }
+    .result-big-emoji { font-size: 5rem; display: block; }
+    .result-stars { font-size: 2.2rem; margin: 8px 0; letter-spacing: 4px; }
+    .result-title {
+      font-size: 2.2rem;
+      font-weight: bold;
+      margin: 6px 0 4px;
+    }
+    .result-title.pass {
+      background: linear-gradient(90deg, #10b981, #06b6d4);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .result-title.fail {
+      background: linear-gradient(90deg, #f97316, #fb7185);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .result-msg { color: #a070c0; font-size: 1rem; margin-bottom: 4px; }
+
+    .score-card {
+      background: linear-gradient(135deg, #fff0f8, #f5e8ff);
+      border: 3px solid #f0c8e8;
+      border-radius: 26px;
       padding: 20px;
-      margin: 16px 0;
+      margin: 14px 0;
       text-align: center;
     }
-    .score-num  { font-size: 3.5rem; font-weight: bold; color: #333; }
-    .score-pct  { font-size: 1.2rem; color: #667eea; font-weight: bold; }
-    .pass-line  { font-size: 0.9rem; color: #888; margin-bottom: 16px; }
-    .wrong-list {
-      background: #fff5f5;
-      border-radius: 14px;
-      padding: 14px;
+    .score-big { font-size: 4rem; font-weight: bold; color: #7c3aed; }
+    .score-of  { font-size: 1.4rem; color: #b088c0; }
+    .score-pct { font-size: 1.2rem; font-weight: bold; color: #ff6ba8; margin-top: 4px; }
+    .pass-info {
+      text-align: center;
+      font-size: 0.9rem;
+      color: #b088c0;
+      margin-bottom: 14px;
+    }
+
+    .wrong-box {
+      background: #fff5f9;
+      border: 2px solid #ffc8df;
+      border-radius: 18px;
+      padding: 14px 16px;
       margin-bottom: 16px;
       font-size: 0.95rem;
     }
-    .wrong-item {
+    .wrong-box h3 { color: #ff6ba8; font-size: 0.95rem; margin-bottom: 10px; }
+    .wrong-row {
       display: flex;
       justify-content: space-between;
-      padding: 5px 0;
-      border-bottom: 1px solid #fdd;
-      color: #555;
+      align-items: center;
+      padding: 6px 0;
+      border-bottom: 1px dashed #ffd6e7;
+      color: #666;
     }
-    .wrong-item:last-child { border-bottom: none; }
-    .wrong-en { font-weight: bold; color: #e53e3e; }
+    .wrong-row:last-child { border-bottom: none; }
+    .wrong-ans { font-weight: bold; color: #e11d48; }
+
+    .perfect-box {
+      background: linear-gradient(135deg, #d4f7e8, #a7f3d0);
+      border: 2px solid #34d399;
+      border-radius: 18px;
+      padding: 16px;
+      text-align: center;
+      color: #065f46;
+      font-weight: bold;
+      font-size: 1.05rem;
+      margin-bottom: 16px;
+    }
+
     .result-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+    /* ===== iPad 対応 ===== */
+    @media (min-width: 768px) {
+      body { align-items: center; padding: 24px; }
+      .app { padding: 36px 40px 40px; }
+      .q-text { font-size: 2.4rem; }
+      .btn { font-size: 1.25rem; padding: 22px 26px; }
+      .opt-btn { font-size: 1.1rem; padding: 24px 12px; }
+      .options-grid { gap: 16px; }
+    }
+
+    /* ===== アニメ ===== */
+    @keyframes pop {
+      0%   { transform: scale(0.85); opacity:0; }
+      70%  { transform: scale(1.06); }
+      100% { transform: scale(1);   opacity:1; }
+    }
+    .screen.active { animation: pop 0.25s ease; }
+
+    @keyframes bounce {
+      0%,100% { transform: translateY(0); }
+      50%      { transform: translateY(-8px); }
+    }
+    .result-big-emoji { animation: bounce 1.2s ease infinite; }
   </style>
 </head>
 <body>
@@ -213,79 +355,123 @@
 
   <!-- ホーム画面 -->
   <div id="screen-home" class="screen active">
-    <h1>🌟 英検チャレンジ！</h1>
-    <p class="subtitle">たのしく英語をおぼえよう！</p>
-    <p style="text-align:center;font-size:1rem;color:#555;margin-bottom:16px;">どのきゅうにチャレンジする？</p>
-    <button class="btn btn-pink"   onclick="go('mode','9')">🌱 9きゅう（はじめてさん）</button>
-    <button class="btn btn-blue"   onclick="go('mode','8')">🌿 8きゅう</button>
-    <button class="btn btn-green"  onclick="go('mode','7')">🌸 7きゅう</button>
-    <button class="btn btn-orange" onclick="go('mode','6')">🌻 6きゅう</button>
-    <button class="btn btn-purple" onclick="go('mode','5')">⭐ 5きゅう（英検5きゅう！）</button>
+    <div class="home-logo">🌸</div>
+    <div class="page-title">英検チャレンジ！</div>
+    <div class="page-sub">たのしく英語をおぼえよう 💕</div>
+    <div class="home-grade-label">どのきゅうにチャレンジする？</div>
+    <button class="btn btn-pink"   onclick="go('mode','9')">
+      <span class="icon">🌱</span>
+      <span class="label">9きゅう<small>はじめてさん・ここからスタート！</small></span>
+    </button>
+    <button class="btn btn-purple" onclick="go('mode','8')">
+      <span class="icon">🌿</span>
+      <span class="label">8きゅう<small>すこし慣れてきた人</small></span>
+    </button>
+    <button class="btn btn-blue"   onclick="go('mode','7')">
+      <span class="icon">🌸</span>
+      <span class="label">7きゅう<small>どんどん上手に！</small></span>
+    </button>
+    <button class="btn btn-peach"  onclick="go('mode','6')">
+      <span class="icon">🌻</span>
+      <span class="label">6きゅう<small>なかなかすごい！</small></span>
+    </button>
+    <button class="btn btn-yellow" onclick="go('mode','5')">
+      <span class="icon">⭐</span>
+      <span class="label">5きゅう<small>英検5きゅうに挑戦！</small></span>
+    </button>
   </div>
 
   <!-- モード選択 -->
   <div id="screen-mode" class="screen">
     <button class="back-btn" onclick="show('home')">← もどる</button>
-    <h1>なにを練習する？</h1>
-    <p class="subtitle">えらんでね！</p>
-    <button class="btn btn-purple" onclick="go('diff','vocab')">📝 たんご（英単語）</button>
-    <button class="btn btn-pink"   onclick="go('diff','sent')">💬 ぶんしょう（英語の文）</button>
-    <button class="btn btn-blue"   onclick="go('diff','mix')">🎯 ミックス（たんご＋ぶんしょう）</button>
+    <div class="page-title">なにを練習する？</div>
+    <div class="page-sub">えらんでね！</div>
+    <button class="btn btn-purple" onclick="go('diff','vocab')">
+      <span class="icon">📝</span>
+      <span class="label">たんご<small>英語のたんごをおぼえよう</small></span>
+    </button>
+    <button class="btn btn-pink" onclick="go('diff','sent')">
+      <span class="icon">💬</span>
+      <span class="label">ぶんしょう<small>英語のぶんをおぼえよう</small></span>
+    </button>
+    <button class="btn btn-blue" onclick="go('diff','mix')">
+      <span class="icon">🎯</span>
+      <span class="label">ミックス<small>たんご5もん＋ぶんしょう5もん</small></span>
+    </button>
   </div>
 
   <!-- むずかしさ選択 -->
   <div id="screen-diff" class="screen">
     <button class="back-btn" onclick="show('mode')">← もどる</button>
-    <h1>むずかしさは？</h1>
-    <p class="subtitle">じぶんにあったレベルをえらんでね</p>
-    <button class="btn btn-green"  onclick="go('quiz','easy')">😊 かんたん（3つからえらぶ、ヒントあり）</button>
-    <button class="btn btn-orange" onclick="go('quiz','normal')">😤 ふつう（4つからえらぶ）</button>
-    <button class="btn btn-red"    onclick="go('quiz','hard')">💪 むずかしい（じぶんで入力！）</button>
+    <div class="page-title">むずかしさは？</div>
+    <div class="page-sub">じぶんにあったレベルをえらんでね</div>
+    <button class="btn btn-mint"   onclick="go('quiz','easy')">
+      <span class="icon">😊</span>
+      <span class="label">かんたん<small>3つからえらぶ・ヒントあり！</small></span>
+    </button>
+    <button class="btn btn-peach"  onclick="go('quiz','normal')">
+      <span class="icon">😤</span>
+      <span class="label">ふつう<small>4つからえらぶ・ヒントなし</small></span>
+    </button>
+    <button class="btn btn-red"    onclick="go('quiz','hard')">
+      <span class="icon">💪</span>
+      <span class="label">むずかしい<small>じぶんで英語を入力！チャレンジ！</small></span>
+    </button>
   </div>
 
   <!-- クイズ画面 -->
   <div id="screen-quiz" class="screen">
     <div class="quiz-header">
-      <span id="q-badge">9きゅう</span>
-      <span id="q-progress">1 / 10</span>
-      <span class="quiz-score" id="q-score">⭐ 0</span>
+      <span class="q-badge" id="q-badge">9きゅう</span>
+      <span class="q-progress" id="q-progress">1 / 10</span>
+      <span class="q-score" id="q-score">⭐ 0</span>
     </div>
-    <div class="progress-bar-bg">
-      <div class="progress-bar-fill" id="q-bar" style="width:0%"></div>
+    <div class="prog-bg">
+      <div class="prog-fill" id="q-bar" style="width:0%"></div>
     </div>
-    <div class="question-box">
-      <div class="question-label" id="q-label">日本語を見て、英語をえらんでね</div>
-      <div class="question-text"  id="q-text">りんご</div>
-      <div class="question-hint"  id="q-hint"></div>
+    <div class="question-card">
+      <div id="q-type-badge" class="q-type-badge vocab">📝 たんご</div>
+      <div class="q-label" id="q-label">日本語を見て、英語をえらんでね</div>
+      <div class="q-text"  id="q-text">りんご</div>
+      <div class="q-hint"  id="q-hint"></div>
     </div>
     <div id="choice-area">
       <div class="options-grid" id="options-grid"></div>
     </div>
     <div id="type-area" style="display:none">
       <input type="text" class="type-input" id="type-input"
-             placeholder="英語を入力してね" autocomplete="off" autocorrect="off" spellcheck="false">
-      <button class="btn btn-purple" id="submit-btn" onclick="checkType()">かくにんする！</button>
+             placeholder="英語を入力してね 🌸" autocomplete="off" autocorrect="off" spellcheck="false">
+      <button class="btn btn-purple" id="submit-btn" onclick="checkType()">
+        <span class="icon">✏️</span>
+        <span class="label">かくにんする！</span>
+      </button>
     </div>
     <div class="feedback" id="feedback"></div>
-    <button class="next-btn" id="next-btn" onclick="nextQ()">つぎへ →</button>
+    <button class="next-btn" id="next-btn" onclick="nextQ()">つぎの問題へ ✨</button>
   </div>
 
   <!-- けっか画面 -->
   <div id="screen-results" class="screen">
-    <div class="result-center">
-      <div class="result-emoji" id="r-emoji">🎉</div>
+    <div class="result-top">
+      <span class="result-big-emoji" id="r-emoji">🎉</span>
+      <div class="result-stars" id="r-stars">⭐⭐⭐</div>
       <div class="result-title" id="r-title">ごうかく！</div>
-      <div id="r-msg" style="color:#888;font-size:1rem;"></div>
+      <div class="result-msg"   id="r-msg">すごい！よくできました！</div>
     </div>
-    <div class="score-box">
-      <div><span class="score-num" id="r-score">8</span><span style="font-size:1.4rem;color:#888;"> / 10もん</span></div>
+    <div class="score-card">
+      <span class="score-big" id="r-score">8</span>
+      <span class="score-of"> / 10もん</span>
       <div class="score-pct" id="r-pct">80% せいかい！</div>
     </div>
-    <div class="pass-line">ごうかくラインは <strong id="r-line">60</strong>% だよ</div>
+    <div class="pass-info">ごうかくライン：<strong id="r-line">60</strong>%</div>
     <div id="r-wrong"></div>
     <div class="result-btns">
-      <button class="btn btn-pink"   onclick="retryQuiz()">もう一かい！</button>
-      <button class="btn btn-purple" onclick="show('home')">ホームへ</button>
+      <button class="btn btn-pink"   onclick="retryQuiz()">
+        <span class="icon">🔄</span><span class="label">もう一かい！</span>
+      </button>
+      <button class="btn btn-purple" onclick="show('home')">
+        <span class="icon">🏠</span><span class="label">ホームへ</span>
+      </button>
     </div>
   </div>
 
@@ -394,6 +580,11 @@
     document.getElementById('feedback').className     = 'feedback';
     document.getElementById('feedback').textContent   = '';
     document.getElementById('next-btn').className     = 'next-btn';
+
+    // たんご/ぶんしょう バッジ
+    const tb = document.getElementById('q-type-badge');
+    if (q.type === 'vocab') { tb.textContent = '📝 たんご'; tb.className = 'q-type-badge vocab'; }
+    else                    { tb.textContent = '💬 ぶんしょう'; tb.className = 'q-type-badge sent'; }
 
     // ヒント（かんたんモード）
     document.getElementById('q-hint').textContent =
@@ -506,11 +697,38 @@
     const pass = DB[state.grade].pass;
     const ok   = pct >= pass;
 
-    document.getElementById('r-emoji').textContent = ok ? '🎉' : '😊';
+    // スター数（5つ満点）
+    const starCount = pct >= 100 ? 5 : pct >= 90 ? 5 : pct >= 80 ? 4 : pct >= 70 ? 3 : pct >= 60 ? 3 : pct >= 40 ? 2 : 1;
+    const stars = '⭐'.repeat(starCount) + '☆'.repeat(5-starCount);
+
+    // タイトル＆メッセージ
+    const titles = {
+      100: 'かんぺき！！',
+      90:  'すごすぎる！',
+      80:  'すごい！',
+      70:  'ごうかく！',
+      60:  'ごうかく！',
+      40:  'あとすこし！',
+      0:   'もう一かいがんばろう！'
+    };
+    const msgs = {
+      100: '🎊 ぜんもんせいかい！天才だよ！',
+      90:  '✨ ほぼかんぺき！すごすぎ！',
+      80:  '💕 とってもよくできました！',
+      70:  '🌸 ごうかくおめでとう！',
+      60:  '🌟 ごうかくおめでとう！',
+      40:  '😊 もうすこし！きっとできるよ！',
+      0:   '💪 いっしょにがんばろう！'
+    };
+    const emojis = { 100:'🏆', 90:'🎉', 80:'🌟', 70:'💐', 60:'🎀', 40:'🌈', 0:'😊' };
+    const key = [100,90,80,70,60,40,0].find(k => pct >= k);
+
+    document.getElementById('r-emoji').textContent = emojis[key];
+    document.getElementById('r-stars').textContent = stars;
     const t = document.getElementById('r-title');
-    t.textContent = ok ? 'ごうかく！' : 'もう一かいがんばろう！';
+    t.textContent = titles[key];
     t.className   = 'result-title ' + (ok ? 'pass' : 'fail');
-    document.getElementById('r-msg').textContent   = ok ? 'すごい！よくできました！' : 'あとすこし！もう一かいやってみよう！';
+    document.getElementById('r-msg').textContent   = msgs[key];
     document.getElementById('r-score').textContent = state.score;
     document.getElementById('r-pct').textContent   = pct+'% せいかい！';
     document.getElementById('r-line').textContent  = pass;
@@ -518,11 +736,11 @@
     // まちがえた問題
     const wr = document.getElementById('r-wrong');
     if (state.wrong.length === 0) {
-      wr.innerHTML = '<div style="background:#f0fff4;border-radius:14px;padding:14px;text-align:center;color:#276749;font-weight:bold;margin-bottom:12px;">🎊 ぜんもんせいかい！かんぺき！</div>';
+      wr.innerHTML = '<div class="perfect-box">🎊 ぜんもんせいかい！かんぺきだよ！</div>';
     } else {
-      let h = '<div class="wrong-list"><p style="font-weight:bold;color:#e53e3e;margin-bottom:8px;">まちがえた問題</p>';
+      let h = '<div class="wrong-box"><h3>💡 まちがえた問題（おぼえよう！）</h3>';
       state.wrong.forEach(q => {
-        h += '<div class="wrong-item"><span>'+q.ja+'</span><span class="wrong-en">→ '+q.en+'</span></div>';
+        h += '<div class="wrong-row"><span>'+q.ja+'</span><span class="wrong-ans">→ '+q.en+'</span></div>';
       });
       h += '</div>';
       wr.innerHTML = h;
