@@ -75,6 +75,137 @@
       margin-bottom: 16px;
       font-size: 0.95rem;
     }
+
+    /* ---- クイズ画面 ---- */
+    .quiz-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      font-size: 0.95rem;
+      color: #666;
+    }
+    .quiz-score { font-weight: bold; color: #f5576c; font-size: 1.1rem; }
+
+    .progress-bar-bg {
+      background: #eee;
+      border-radius: 10px;
+      height: 12px;
+      margin-bottom: 20px;
+      overflow: hidden;
+    }
+    .progress-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #667eea, #764ba2);
+      border-radius: 10px;
+      transition: width 0.3s;
+    }
+
+    .question-box {
+      background: #f7f0ff;
+      border-radius: 20px;
+      padding: 28px 20px;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .question-label { color: #888; font-size: 0.9rem; margin-bottom: 8px; }
+    .question-text  { font-size: 1.8rem; font-weight: bold; color: #333; }
+    .question-hint  { color: #aaa; font-size: 0.85rem; margin-top: 8px; }
+
+    .options-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+    .opt-btn {
+      padding: 18px 10px;
+      border: 3px solid #e0e0e0;
+      border-radius: 14px;
+      background: white;
+      font-size: 1rem;
+      font-weight: bold;
+      color: #333;
+      cursor: pointer;
+      transition: transform 0.1s;
+    }
+    .opt-btn:active { transform: scale(0.96); }
+    .opt-btn.correct { background: #d4edda; border-color: #48bb78; color: #276749; }
+    .opt-btn.wrong   { background: #ffe0e0; border-color: #fc8181; color: #742a2a; }
+    .opt-btn.reveal  { background: #d4edda; border-color: #48bb78; color: #276749; }
+    .opt-btn:disabled { cursor: default; }
+
+    .type-input {
+      width: 100%;
+      padding: 16px;
+      border: 3px solid #ddd;
+      border-radius: 14px;
+      font-size: 1.2rem;
+      text-align: center;
+      outline: none;
+      margin-bottom: 10px;
+    }
+    .type-input:focus { border-color: #667eea; }
+
+    .feedback {
+      display: none;
+      padding: 12px;
+      border-radius: 12px;
+      text-align: center;
+      font-weight: bold;
+      font-size: 1rem;
+      margin-bottom: 10px;
+    }
+    .feedback.ok  { display: block; background: #d4edda; color: #276749; }
+    .feedback.ng  { display: block; background: #ffe0e0; color: #742a2a; }
+
+    .next-btn {
+      display: none;
+      width: 100%;
+      padding: 16px;
+      border: none;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #43e97b, #38f9d7);
+      color: white;
+      font-size: 1.2rem;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .next-btn.show { display: block; }
+
+    /* ---- けっか画面 ---- */
+    .result-center { text-align: center; padding: 10px 0; }
+    .result-emoji  { font-size: 5rem; }
+    .result-title  { font-size: 2rem; font-weight: bold; margin: 10px 0 4px; }
+    .result-title.pass { color: #48bb78; }
+    .result-title.fail { color: #fc8181; }
+    .score-box {
+      background: #f7f0ff;
+      border-radius: 20px;
+      padding: 20px;
+      margin: 16px 0;
+      text-align: center;
+    }
+    .score-num  { font-size: 3.5rem; font-weight: bold; color: #333; }
+    .score-pct  { font-size: 1.2rem; color: #667eea; font-weight: bold; }
+    .pass-line  { font-size: 0.9rem; color: #888; margin-bottom: 16px; }
+    .wrong-list {
+      background: #fff5f5;
+      border-radius: 14px;
+      padding: 14px;
+      margin-bottom: 16px;
+      font-size: 0.95rem;
+    }
+    .wrong-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 5px 0;
+      border-bottom: 1px solid #fdd;
+      color: #555;
+    }
+    .wrong-item:last-child { border-bottom: none; }
+    .wrong-en { font-weight: bold; color: #e53e3e; }
+    .result-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
   </style>
 </head>
 <body>
@@ -112,39 +243,300 @@
     <button class="btn btn-red"    onclick="go('quiz','hard')">💪 むずかしい（じぶんで入力！）</button>
   </div>
 
-  <!-- クイズ画面（あとで追加） -->
+  <!-- クイズ画面 -->
   <div id="screen-quiz" class="screen">
-    <p style="text-align:center;padding:40px;color:#888;">クイズをよみこみ中...</p>
+    <div class="quiz-header">
+      <span id="q-badge">9きゅう</span>
+      <span id="q-progress">1 / 10</span>
+      <span class="quiz-score" id="q-score">⭐ 0</span>
+    </div>
+    <div class="progress-bar-bg">
+      <div class="progress-bar-fill" id="q-bar" style="width:0%"></div>
+    </div>
+    <div class="question-box">
+      <div class="question-label" id="q-label">日本語を見て、英語をえらんでね</div>
+      <div class="question-text"  id="q-text">りんご</div>
+      <div class="question-hint"  id="q-hint"></div>
+    </div>
+    <div id="choice-area">
+      <div class="options-grid" id="options-grid"></div>
+    </div>
+    <div id="type-area" style="display:none">
+      <input type="text" class="type-input" id="type-input"
+             placeholder="英語を入力してね" autocomplete="off" autocorrect="off" spellcheck="false">
+      <button class="btn btn-purple" id="submit-btn" onclick="checkType()">かくにんする！</button>
+    </div>
+    <div class="feedback" id="feedback"></div>
+    <button class="next-btn" id="next-btn" onclick="nextQ()">つぎへ →</button>
   </div>
 
-  <!-- けっか画面（あとで追加） -->
+  <!-- けっか画面 -->
   <div id="screen-results" class="screen">
-    <p style="text-align:center;padding:40px;color:#888;">けっかをひょうじ中...</p>
+    <div class="result-center">
+      <div class="result-emoji" id="r-emoji">🎉</div>
+      <div class="result-title" id="r-title">ごうかく！</div>
+      <div id="r-msg" style="color:#888;font-size:1rem;"></div>
+    </div>
+    <div class="score-box">
+      <div><span class="score-num" id="r-score">8</span><span style="font-size:1.4rem;color:#888;"> / 10もん</span></div>
+      <div class="score-pct" id="r-pct">80% せいかい！</div>
+    </div>
+    <div class="pass-line">ごうかくラインは <strong id="r-line">60</strong>% だよ</div>
+    <div id="r-wrong"></div>
+    <div class="result-btns">
+      <button class="btn btn-pink"   onclick="retryQuiz()">もう一かい！</button>
+      <button class="btn btn-purple" onclick="show('home')">ホームへ</button>
+    </div>
   </div>
 
 </div>
 
 <script>
-  // じょうたい管理
-  const state = { grade: null, mode: null, diff: null };
+  // ===== じょうたい =====
+  const state = {
+    grade: null, mode: null, diff: null,
+    questions: [], idx: 0, score: 0,
+    answered: false, wrong: []
+  };
 
-  // 画面遷移
+  // ===== 問題データ (9きゅう) =====
+  const DB = {
+    '9': {
+      name: '9きゅう', pass: 60,
+      vocab: [
+        {en:'apple',  ja:'りんご'},
+        {en:'cat',    ja:'ねこ'},
+        {en:'dog',    ja:'いぬ'},
+        {en:'book',   ja:'ほん'},
+        {en:'water',  ja:'みず'},
+        {en:'bird',   ja:'とり'},
+        {en:'red',    ja:'あか'},
+        {en:'blue',   ja:'あお'},
+        {en:'sun',    ja:'たいよう'},
+        {en:'star',   ja:'ほし'},
+        {en:'ball',   ja:'ボール'},
+        {en:'tree',   ja:'き'},
+        {en:'flower', ja:'はな'},
+        {en:'cake',   ja:'ケーキ'},
+        {en:'pen',    ja:'ペン'},
+        {en:'happy',  ja:'うれしい'},
+        {en:'white',  ja:'しろ'},
+        {en:'black',  ja:'くろ'},
+        {en:'green',  ja:'みどり'},
+        {en:'yellow', ja:'きいろ'}
+      ],
+      sent: [
+        {en:'I am happy.',        ja:'わたしはうれしいです。'},
+        {en:'This is a cat.',     ja:'これはねこです。'},
+        {en:'I like apples.',     ja:'わたしはりんごがすきです。'},
+        {en:'Good morning!',      ja:'おはようございます！'},
+        {en:'Thank you.',         ja:'ありがとう。'},
+        {en:'I have a book.',     ja:'わたしはほんをもっています。'},
+        {en:'The sky is blue.',   ja:'そらはあおいです。'},
+        {en:'I can see a bird.',  ja:'とりがみえます。'},
+        {en:'This is water.',     ja:'これはみずです。'},
+        {en:'I see a star.',      ja:'ほしがみえます。'}
+      ]
+    }
+  };
+
+  // ===== 画面遷移 =====
   function show(id) {
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
     document.getElementById('screen-' + id).classList.add('active');
   }
 
   function go(next, val) {
-    if (next === 'mode')  { state.grade = val; show('mode'); }
-    if (next === 'diff')  { state.mode  = val; show('diff'); }
-    if (next === 'quiz')  { state.diff  = val; show('quiz'); startQuiz(); }
+    if (next === 'mode') { state.grade = val; show('mode'); }
+    if (next === 'diff') { state.mode  = val; show('diff'); }
+    if (next === 'quiz') { state.diff  = val; startQuiz(); }
+  }
+
+  // ===== クイズ開始 =====
+  function shuffle(a) {
+    for (let i = a.length-1; i > 0; i--) {
+      const j = Math.floor(Math.random()*(i+1));
+      [a[i],a[j]] = [a[j],a[i]];
+    }
+    return a;
   }
 
   function startQuiz() {
-    document.getElementById('screen-quiz').innerHTML =
-      '<p style="text-align:center;padding:40px;color:#888;">クイズ準備中… (もうすぐ追加するよ！)<br><br>' +
-      'きゅう: ' + state.grade + ' / モード: ' + state.mode + ' / レベル: ' + state.diff + '</p>' +
-      '<button class="btn btn-purple" onclick="show(\'home\')" style="margin-top:20px">ホームへもどる</button>';
+    const d = DB[state.grade];
+    let pool = [];
+    if (state.mode === 'vocab') pool = d.vocab.map(q=>({...q,type:'vocab'}));
+    if (state.mode === 'sent')  pool = d.sent.map(q=>({...q,type:'sent'}));
+    if (state.mode === 'mix') {
+      const v = shuffle([...d.vocab]).slice(0,5).map(q=>({...q,type:'vocab'}));
+      const s = shuffle([...d.sent]).slice(0,5).map(q=>({...q,type:'sent'}));
+      pool = shuffle([...v,...s]);
+    }
+    state.questions = shuffle(pool).slice(0,10);
+    state.idx = 0; state.score = 0; state.wrong = [];
+    show('quiz');
+    renderQ();
+  }
+
+  function retryQuiz() { startQuiz(); }
+
+  // ===== 問題表示 =====
+  function renderQ() {
+    const q   = state.questions[state.idx];
+    const tot = state.questions.length;
+    const d   = DB[state.grade];
+    state.answered = false;
+
+    document.getElementById('q-badge').textContent    = d.name;
+    document.getElementById('q-progress').textContent = (state.idx+1)+' / '+tot;
+    document.getElementById('q-score').textContent    = '⭐ '+state.score;
+    document.getElementById('q-bar').style.width      = (state.idx/tot*100)+'%';
+    document.getElementById('q-text').textContent     = q.ja;
+    document.getElementById('feedback').className     = 'feedback';
+    document.getElementById('feedback').textContent   = '';
+    document.getElementById('next-btn').className     = 'next-btn';
+
+    // ヒント（かんたんモード）
+    document.getElementById('q-hint').textContent =
+      state.diff === 'easy' ? 'ヒント：「'+q.en[0]+'」からはじまるよ！' : '';
+
+    if (state.diff === 'hard') {
+      document.getElementById('choice-area').style.display = 'none';
+      document.getElementById('type-area').style.display   = 'block';
+      document.getElementById('type-input').value = '';
+      document.getElementById('type-input').disabled = false;
+      document.getElementById('submit-btn').disabled = false;
+      document.getElementById('q-label').textContent = '日本語を見て、英語を入力してね';
+      setTimeout(()=>document.getElementById('type-input').focus(), 100);
+    } else {
+      document.getElementById('choice-area').style.display = 'block';
+      document.getElementById('type-area').style.display   = 'none';
+      document.getElementById('q-label').textContent = '日本語を見て、英語をえらんでね';
+      renderChoices(q);
+    }
+  }
+
+  // ===== 選択肢 =====
+  function renderChoices(q) {
+    const d   = DB[state.grade];
+    const all = q.type === 'vocab' ? d.vocab : d.sent;
+    const cnt = state.diff === 'easy' ? 3 : 4;
+    const wrongs = shuffle(all.filter(x=>x.en!==q.en)).slice(0, cnt-1);
+    const opts   = shuffle([q, ...wrongs]);
+    const grid   = document.getElementById('options-grid');
+    grid.innerHTML = '';
+    opts.forEach(opt => {
+      const b = document.createElement('button');
+      b.className   = 'opt-btn';
+      b.textContent = opt.en;
+      b.onclick     = () => checkChoice(b, opt.en, q.en);
+      grid.appendChild(b);
+    });
+  }
+
+  // ===== こたえチェック（えらぶ）=====
+  function checkChoice(btn, selected, correct) {
+    if (state.answered) return;
+    state.answered = true;
+    document.querySelectorAll('.opt-btn').forEach(b => {
+      b.disabled = true;
+      if (b.textContent === correct) b.classList.add('reveal');
+    });
+    const fb = document.getElementById('feedback');
+    if (selected === correct) {
+      btn.classList.add('correct');
+      fb.className = 'feedback ok';
+      fb.textContent = '⭕ せいかい！すごい！';
+      state.score++;
+    } else {
+      btn.classList.add('wrong');
+      fb.className = 'feedback ng';
+      fb.textContent = '❌ ざんねん！正かいは「'+correct+'」だよ';
+      state.wrong.push(state.questions[state.idx]);
+    }
+    document.getElementById('q-score').textContent = '⭐ '+state.score;
+    document.getElementById('next-btn').className  = 'next-btn show';
+  }
+
+  // ===== こたえチェック（入力）=====
+  function checkType() {
+    if (state.answered) return;
+    const inp = document.getElementById('type-input');
+    const typed   = inp.value.trim().toLowerCase();
+    if (!typed) return;
+    state.answered = true;
+    inp.disabled = true;
+    document.getElementById('submit-btn').disabled = true;
+    const q       = state.questions[state.idx];
+    const correct = q.en.toLowerCase();
+    const ok = typed === correct
+            || typed === correct.replace(/[.!?]$/,'')
+            || lev(typed, correct) <= 1;
+    const fb = document.getElementById('feedback');
+    if (ok) {
+      inp.style.borderColor = '#48bb78';
+      fb.className = 'feedback ok';
+      fb.textContent = '⭕ せいかい！すごい！';
+      state.score++;
+    } else {
+      inp.style.borderColor = '#fc8181';
+      fb.className = 'feedback ng';
+      fb.textContent = '❌ ざんねん！正かいは「'+q.en+'」だよ';
+      state.wrong.push(q);
+    }
+    document.getElementById('q-score').textContent = '⭐ '+state.score;
+    document.getElementById('next-btn').className  = 'next-btn show';
+  }
+
+  document.addEventListener('keypress', e => {
+    if (e.key === 'Enter' && document.getElementById('type-area').style.display !== 'none')
+      checkType();
+  });
+
+  // ===== つぎの問題 =====
+  function nextQ() {
+    state.idx++;
+    if (state.idx >= state.questions.length) showResults();
+    else renderQ();
+  }
+
+  // ===== けっか =====
+  function showResults() {
+    const tot  = state.questions.length;
+    const pct  = Math.round(state.score/tot*100);
+    const pass = DB[state.grade].pass;
+    const ok   = pct >= pass;
+
+    document.getElementById('r-emoji').textContent = ok ? '🎉' : '😊';
+    const t = document.getElementById('r-title');
+    t.textContent = ok ? 'ごうかく！' : 'もう一かいがんばろう！';
+    t.className   = 'result-title ' + (ok ? 'pass' : 'fail');
+    document.getElementById('r-msg').textContent   = ok ? 'すごい！よくできました！' : 'あとすこし！もう一かいやってみよう！';
+    document.getElementById('r-score').textContent = state.score;
+    document.getElementById('r-pct').textContent   = pct+'% せいかい！';
+    document.getElementById('r-line').textContent  = pass;
+
+    // まちがえた問題
+    const wr = document.getElementById('r-wrong');
+    if (state.wrong.length === 0) {
+      wr.innerHTML = '<div style="background:#f0fff4;border-radius:14px;padding:14px;text-align:center;color:#276749;font-weight:bold;margin-bottom:12px;">🎊 ぜんもんせいかい！かんぺき！</div>';
+    } else {
+      let h = '<div class="wrong-list"><p style="font-weight:bold;color:#e53e3e;margin-bottom:8px;">まちがえた問題</p>';
+      state.wrong.forEach(q => {
+        h += '<div class="wrong-item"><span>'+q.ja+'</span><span class="wrong-en">→ '+q.en+'</span></div>';
+      });
+      h += '</div>';
+      wr.innerHTML = h;
+    }
+    show('results');
+  }
+
+  // ===== レーベンシュタイン距離（タイポ許容）=====
+  function lev(a, b) {
+    const m = a.length, n = b.length;
+    const dp = Array.from({length:m+1},(_,i)=>Array.from({length:n+1},(_,j)=>i===0?j:j===0?i:0));
+    for (let i=1;i<=m;i++) for (let j=1;j<=n;j++)
+      dp[i][j] = a[i-1]===b[j-1] ? dp[i-1][j-1] : 1+Math.min(dp[i-1][j],dp[i][j-1],dp[i-1][j-1]);
+    return dp[m][n];
   }
 </script>
 </body>
