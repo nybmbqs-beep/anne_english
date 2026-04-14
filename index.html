@@ -549,6 +549,26 @@
 
   function retryQuiz() { startQuiz(); }
 
+  // ===== 正解音（Web Audio API）=====
+  function playCorrect() {
+    try {
+      const ctx = new (window.AudioContext || window.webkitAudioContext)();
+      // ド・ミ・ソ の三和音を順番に鳴らす
+      [[523, 0], [659, 0.12], [784, 0.24]].forEach(([freq, delay]) => {
+        const osc  = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.type = 'sine';
+        osc.frequency.value = freq;
+        gain.gain.setValueAtTime(0.35, ctx.currentTime + delay);
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + delay + 0.4);
+        osc.start(ctx.currentTime + delay);
+        osc.stop(ctx.currentTime + delay + 0.4);
+      });
+    } catch(e) {}
+  }
+
   // ===== 問題表示 =====
   function renderQ() {
     const q   = state.questions[state.idx];
@@ -621,6 +641,7 @@
       btn.classList.add('correct');
       fb.className = 'feedback ok';
       fb.textContent = '⭕ せいかい！すごい！';
+      playCorrect();
       state.score++;
     } else {
       btn.classList.add('wrong');
@@ -651,6 +672,7 @@
       inp.style.borderColor = '#48bb78';
       fb.className = 'feedback ok';
       fb.textContent = '⭕ せいかい！すごい！';
+      playCorrect();
       state.score++;
     } else {
       inp.style.borderColor = '#fc8181';
