@@ -587,7 +587,7 @@
     <button class="back-btn" onclick="show('mode')">← もどる</button>
     <div class="page-title">むずかしさは？</div>
     <div class="page-sub">じぶんにあったレベルをえらんでね</div>
-    <button class="btn btn-mint"   onclick="go('quiz','easy')">
+    <button class="btn btn-mint" id="btn-easy" onclick="go('quiz','easy')">
       <span class="icon">😊</span>
       <span class="label">かんたん<small>3つからえらぶ・ヒントあり！</small></span>
     </button>
@@ -931,8 +931,14 @@
 
   function go(next, val) {
     if (next === 'mode') { state.grade = val; show('mode'); }
-    if (next === 'diff') { state.mode  = val; show('diff'); }
-    if (next === 'quiz') { state.diff  = val; startQuiz(); }
+    if (next === 'diff') {
+      state.mode = val;
+      // 9級はかんたんモードを非表示
+      document.getElementById('btn-easy').style.display =
+        state.grade === '9' ? 'none' : 'flex';
+      show('diff');
+    }
+    if (next === 'quiz') { state.diff = val; startQuiz(); }
   }
 
   function updateHomePoints() {
@@ -1014,6 +1020,18 @@
 
   function retryQuiz() { startQuiz(); }
 
+  // ===== 英語読み上げ（Web Speech API）=====
+  function speak(text) {
+    try {
+      speechSynthesis.cancel();
+      const utter = new SpeechSynthesisUtterance(text.replace(/[.!?]$/, ''));
+      utter.lang = 'en-US';
+      utter.rate = 0.82;
+      utter.pitch = 1.1;
+      speechSynthesis.speak(utter);
+    } catch(e) {}
+  }
+
   // ===== 正解音（Web Audio API）=====
   function playCorrect() {
     try {
@@ -1055,9 +1073,14 @@
     if (q.type === 'vocab') { tb.textContent = '📝 たんご'; tb.className = 'q-type-badge vocab'; }
     else                    { tb.textContent = '💬 ぶんしょう'; tb.className = 'q-type-badge sent'; }
 
-    // ヒント（かんたんモード）
+    // ヒント表示
+    // ・かんたん：最初の1文字
+    // ・9級むずかしい：最初の1文字（難易度調整）
+    // ・それ以外：なし
+    const showHint = state.diff === 'easy' ||
+                     (state.grade === '9' && state.diff === 'hard');
     document.getElementById('q-hint').textContent =
-      state.diff === 'easy' ? 'ヒント：「'+q.en[0]+'」からはじまるよ！' : '';
+      showHint ? 'ヒント：「' + q.en[0] + '」からはじまるよ！' : '';
 
     if (state.diff === 'hard') {
       document.getElementById('choice-area').style.display = 'none';
@@ -1102,6 +1125,7 @@
       if (b.textContent === correct) b.classList.add('reveal');
     });
     const fb = document.getElementById('feedback');
+    speak(correct);
     if (selected === correct) {
       btn.classList.add('correct');
       fb.className = 'feedback ok';
@@ -1131,6 +1155,7 @@
     const correct = q.en.toLowerCase();
     const ok = typed === correct
             || typed === correct.replace(/[.!?]$/,'');
+    speak(q.en);
     const fb = document.getElementById('feedback');
     if (ok) {
       inp.style.borderColor = '#48bb78';
