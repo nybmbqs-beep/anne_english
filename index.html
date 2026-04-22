@@ -375,6 +375,54 @@
       border-radius: 20px; transition: width 0.5s;
     }
 
+    /* ===== スタンプカード ===== */
+    .stamp-card {
+      background: linear-gradient(135deg, #fff0f8, #f5e8ff);
+      border: 3px solid #f0c8e8;
+      border-radius: 26px;
+      padding: 16px 18px 18px;
+      margin-bottom: 16px;
+    }
+    .stamp-card-title {
+      font-size: 0.95rem;
+      font-weight: bold;
+      color: #b088c0;
+      text-align: center;
+      margin-bottom: 12px;
+    }
+    .stamp-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 10px;
+    }
+    .stamp-cell {
+      aspect-ratio: 1;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      border: 3px dashed #e8c0e0;
+      background: white;
+      transition: transform 0.2s;
+    }
+    .stamp-cell.filled {
+      border: 3px solid #ff9ac1;
+      background: linear-gradient(135deg, #ffd6e7, #e8c8ff);
+      animation: stampPop 0.3s ease;
+    }
+    @keyframes stampPop {
+      0%   { transform: scale(0.6); }
+      70%  { transform: scale(1.15); }
+      100% { transform: scale(1); }
+    }
+    .stamp-card-sub {
+      text-align: center;
+      font-size: 0.85rem;
+      color: #d4a0e8;
+      margin-top: 10px;
+    }
+
     /* ===== ショップ画面 ===== */
     .shop-pts-card {
       background: linear-gradient(135deg, #fff0f8, #f5e8ff);
@@ -496,6 +544,13 @@
     <div class="home-top-bar">
       <div class="home-pts">⭐ ポイント：<span id="home-pts">0</span> pt</div>
       <button class="shop-open-btn" onclick="openShop()">🛍️ ショップ</button>
+    </div>
+    <div class="stamp-card">
+      <div class="stamp-card-title">🎀 シール引換スタンプカード</div>
+      <div class="stamp-grid" id="stamp-grid">
+        <!-- JSで描画 -->
+      </div>
+      <div class="stamp-card-sub" id="stamp-sub">10かいごうかくでシール引換券ゲット！</div>
     </div>
     <div class="home-grade-label">どのきゅうにチャレンジする？</div>
     <button class="btn btn-pink"   onclick="go('mode','9')">
@@ -881,7 +936,29 @@
   }
 
   function updateHomePoints() {
-    document.getElementById('home-pts').textContent = loadSave().points;
+    const sv = loadSave();
+    document.getElementById('home-pts').textContent = sv.points;
+    renderStamps(sv.passes % 10);
+  }
+
+  function renderStamps(filled) {
+    const stamps = ['🌸','🌸','🌸','🌸','🌸','🌸','🌸','🌸','🌸','🌸'];
+    const grid = document.getElementById('stamp-grid');
+    grid.innerHTML = '';
+    for (let i = 0; i < 10; i++) {
+      const cell = document.createElement('div');
+      cell.className = 'stamp-cell' + (i < filled ? ' filled' : '');
+      cell.textContent = i < filled ? '🌸' : '';
+      grid.appendChild(cell);
+    }
+    const sub = document.getElementById('stamp-sub');
+    if (filled === 0) {
+      sub.textContent = '10かいごうかくでシール引換券ゲット！';
+    } else if (filled < 10) {
+      sub.textContent = 'あと ' + (10 - filled) + ' かい合格でシール引換券ゲット！ ✨';
+    } else {
+      sub.textContent = '🎉 シール引換券をゲットしたよ！ショップを見てね！';
+    }
   }
 
   // ===== ショップ =====
