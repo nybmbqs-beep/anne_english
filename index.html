@@ -325,6 +325,141 @@
 
     .result-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 
+    /* ===== ポイント表示バー（ホーム上部）===== */
+    .home-top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: linear-gradient(135deg, #fff0f8, #f5e8ff);
+      border: 2px solid #f0c8e8;
+      border-radius: 20px;
+      padding: 12px 18px;
+      margin-bottom: 16px;
+    }
+    .home-pts { font-size: 1rem; font-weight: bold; color: #a855f7; }
+    .home-pts span { font-size: 1.4rem; }
+    .shop-open-btn {
+      background: linear-gradient(135deg, #ff9ac1, #c77dff);
+      color: white;
+      border: none;
+      border-radius: 16px;
+      padding: 10px 18px;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      touch-action: manipulation;
+    }
+    .shop-open-btn:active { transform: scale(0.95); }
+
+    /* ===== けっか画面のポイント表示 ===== */
+    .earned-box {
+      display: flex;
+      justify-content: space-around;
+      background: linear-gradient(135deg, #fff0f8, #f5e8ff);
+      border: 2px solid #f0c8e8;
+      border-radius: 20px;
+      padding: 14px;
+      margin: 12px 0;
+      text-align: center;
+    }
+    .earned-item { font-size: 0.9rem; color: #b088c0; }
+    .earned-item strong { display: block; font-size: 1.5rem; color: #a855f7; }
+    .pass-prog-wrap { margin-bottom: 14px; }
+    .pass-prog-label { font-size: 0.9rem; color: #b088c0; margin-bottom: 6px; text-align:center; }
+    .pass-prog-bg {
+      background: #f3d4ef; border-radius: 20px; height: 14px; overflow: hidden;
+    }
+    .pass-prog-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #ff9ac1, #c77dff);
+      border-radius: 20px; transition: width 0.5s;
+    }
+
+    /* ===== ショップ画面 ===== */
+    .shop-pts-card {
+      background: linear-gradient(135deg, #fff0f8, #f5e8ff);
+      border: 3px solid #f0c8e8;
+      border-radius: 26px;
+      padding: 20px;
+      text-align: center;
+      margin-bottom: 16px;
+    }
+    .shop-pts-label { font-size: 0.9rem; color: #b088c0; margin-bottom: 4px; }
+    .shop-pts-num   { font-size: 3.5rem; font-weight: bold; color: #a855f7; }
+    .shop-pass-card {
+      background: #fff9fd;
+      border: 2px solid #ecd5f8;
+      border-radius: 20px;
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+    .shop-pass-label { font-size: 0.9rem; color: #b088c0; margin-bottom: 8px; text-align:center; }
+    .shop-pass-prog-bg  { background: #f3d4ef; border-radius:20px; height:14px; overflow:hidden; margin-bottom:6px; }
+    .shop-pass-prog-fill{ height:100%; background: linear-gradient(90deg,#ff9ac1,#c77dff); border-radius:20px; transition: width 0.5s; }
+    .shop-pass-text { text-align:center; font-size:0.9rem; color:#a855f7; font-weight:bold; }
+
+    .shop-item-card {
+      background: white;
+      border: 3px solid #ecd5f8;
+      border-radius: 22px;
+      padding: 18px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+    .shop-item-left { display:flex; align-items:center; gap:14px; }
+    .shop-item-emoji { font-size: 2.8rem; }
+    .shop-item-name  { font-size: 1rem; font-weight:bold; color:#4a2060; }
+    .shop-item-cond  { font-size: 0.8rem; color: #b088c0; margin-top:4px; }
+    .shop-item-right { text-align:center; }
+    .shop-voucher-num { font-size:1.8rem; font-weight:bold; color:#ff6ba8; }
+    .shop-use-btn {
+      background: linear-gradient(135deg,#ff9ac1,#c77dff);
+      color: white; border: none;
+      border-radius: 14px;
+      padding: 10px 16px;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 6px;
+      touch-action: manipulation;
+    }
+    .shop-use-btn:disabled { opacity: 0.4; cursor: default; }
+    .shop-use-btn:not(:disabled):active { transform: scale(0.95); }
+
+    /* ===== お祝いモーダル ===== */
+    .modal-overlay {
+      display: none;
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.45);
+      justify-content: center;
+      align-items: center;
+      z-index: 999;
+    }
+    .modal-overlay.show { display: flex; }
+    .modal-box {
+      background: white;
+      border-radius: 30px;
+      padding: 36px 30px;
+      text-align: center;
+      max-width: 340px;
+      width: 90%;
+      box-shadow: 0 10px 40px rgba(200,100,200,0.4);
+    }
+    .modal-emoji { font-size: 4rem; display:block; margin-bottom: 10px; }
+    .modal-title { font-size: 1.6rem; font-weight:bold; color: #a855f7; margin-bottom: 8px; }
+    .modal-msg   { font-size: 1rem; color: #888; margin-bottom: 20px; }
+    .modal-close-btn {
+      background: linear-gradient(135deg,#ff9ac1,#c77dff);
+      color: white; border:none;
+      border-radius: 16px;
+      padding: 14px 30px;
+      font-size: 1.1rem; font-weight:bold;
+      cursor: pointer;
+      touch-action: manipulation;
+    }
+
     /* ===== iPad 対応 ===== */
     @media (min-width: 768px) {
       body { align-items: center; padding: 24px; }
@@ -358,10 +493,18 @@
     <div class="home-logo">🌸</div>
     <div class="page-title">英検チャレンジ！</div>
     <div class="page-sub">たのしく英語をおぼえよう 💕</div>
+    <div class="home-top-bar">
+      <div class="home-pts">⭐ ポイント：<span id="home-pts">0</span> pt</div>
+      <button class="shop-open-btn" onclick="openShop()">🛍️ ショップ</button>
+    </div>
     <div class="home-grade-label">どのきゅうにチャレンジする？</div>
     <button class="btn btn-pink"   onclick="go('mode','9')">
       <span class="icon">🌱</span>
       <span class="label">9きゅう<small>はじめてさん・ここからスタート！</small></span>
+    </button>
+    <button class="btn btn-blue"   onclick="go('mode','8')">
+      <span class="icon">🌿</span>
+      <span class="label">8きゅう<small>すこし慣れてきた人</small></span>
     </button>
   </div>
 
@@ -448,6 +591,14 @@
       <div class="score-pct" id="r-pct">80% せいかい！</div>
     </div>
     <div class="pass-info">ごうかくライン：<strong id="r-line">60</strong>%</div>
+    <div class="earned-box">
+      <div class="earned-item"><strong id="r-earned">+0</strong>pt もらったよ！</div>
+      <div class="earned-item"><strong id="r-total-pts">0</strong>pt ごうけい</div>
+    </div>
+    <div class="pass-prog-wrap">
+      <div class="pass-prog-label" id="r-pass-label">シール引換まで あと 10かい合格！</div>
+      <div class="pass-prog-bg"><div class="pass-prog-fill" id="r-pass-bar" style="width:0%"></div></div>
+    </div>
     <div id="r-wrong"></div>
     <div class="result-btns">
       <button class="btn btn-pink"   onclick="retryQuiz()">
@@ -456,6 +607,48 @@
       <button class="btn btn-purple" onclick="show('home')">
         <span class="icon">🏠</span><span class="label">ホームへ</span>
       </button>
+    </div>
+  </div>
+
+  <!-- ショップ画面 -->
+  <div id="screen-shop" class="screen">
+    <button class="back-btn" onclick="show('home')">← もどる</button>
+    <div class="page-title">🛍️ ショップ</div>
+    <div class="page-sub">シール引換券をつかおう！</div>
+    <div class="shop-pts-card">
+      <div class="shop-pts-label">もっているポイント</div>
+      <div class="shop-pts-num" id="shop-pts">0</div>
+      <div style="font-size:0.9rem;color:#b088c0;">pt</div>
+    </div>
+    <div class="shop-pass-card">
+      <div class="shop-pass-label">🎀 シール引換まであと何かい合格？</div>
+      <div class="shop-pass-prog-bg">
+        <div class="shop-pass-prog-fill" id="shop-pass-bar" style="width:0%"></div>
+      </div>
+      <div class="shop-pass-text" id="shop-pass-text">0 / 10 かいごうかく</div>
+    </div>
+    <div class="shop-item-card">
+      <div class="shop-item-left">
+        <div class="shop-item-emoji">🎁</div>
+        <div>
+          <div class="shop-item-name">ボンボンドロップ<br>シール引換券</div>
+          <div class="shop-item-cond">10かいごうかくでもらえる！</div>
+        </div>
+      </div>
+      <div class="shop-item-right">
+        <div class="shop-voucher-num" id="shop-voucher-num">×0</div>
+        <button class="shop-use-btn" id="shop-use-btn" onclick="useVoucher()">つかう！</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- お祝いモーダル -->
+  <div class="modal-overlay" id="modal">
+    <div class="modal-box">
+      <span class="modal-emoji">🎊</span>
+      <div class="modal-title">シール引換券をつかったよ！</div>
+      <div class="modal-msg">おうちの人にみせて<br>ボンボンドロップシールをもらおう！</div>
+      <button class="modal-close-btn" onclick="closeModal()">やったー！</button>
     </div>
   </div>
 
@@ -592,19 +785,129 @@
         {en:'The cat is small.',     ja:'ねこは小さいです。'},
         {en:'The bear is big.',      ja:'くまは大きいです。'},
       ]
+    },
+    '8': {
+      name: '8きゅう', pass: 60,
+      vocab: [
+        /* ようび (Days) */
+        {en:'Monday',    ja:'月曜日'}, {en:'Tuesday',  ja:'火曜日'},
+        {en:'Wednesday', ja:'水曜日'}, {en:'Thursday', ja:'木曜日'},
+        {en:'Friday',    ja:'金曜日'}, {en:'Saturday', ja:'土曜日'},
+        {en:'Sunday',    ja:'日曜日'},
+        /* かぞく (Family) */
+        {en:'mother',  ja:'お母さん'}, {en:'father', ja:'お父さん'},
+        {en:'sister',  ja:'おねえさん'}, {en:'brother', ja:'おにいさん'},
+        {en:'friend',  ja:'友だち'},   {en:'baby',   ja:'あかちゃん'},
+        /* がっこう (School) */
+        {en:'school',    ja:'学校'}, {en:'teacher', ja:'先生'},
+        {en:'eraser',    ja:'けしごむ'}, {en:'notebook', ja:'ノート'},
+        {en:'class',     ja:'クラス'},
+        /* どうぶつ (Animals) */
+        {en:'elephant', ja:'ぞう'}, {en:'giraffe', ja:'キリン'},
+        {en:'penguin',  ja:'ペンギン'},
+        /* うごき (Actions) */
+        {en:'run',    ja:'走る'}, {en:'walk',  ja:'歩く'},
+        {en:'eat',    ja:'食べる'}, {en:'drink', ja:'飲む'},
+        {en:'play',   ja:'遊ぶ'}, {en:'study', ja:'べんきょうする'},
+        {en:'read',   ja:'読む'}, {en:'write', ja:'書く'},
+        {en:'sing',   ja:'歌う'}, {en:'swim',  ja:'泳ぐ'},
+        {en:'sleep',  ja:'ねる'}, {en:'listen',ja:'聞く'},
+        /* ようす (Adjectives) */
+        {en:'hot',    ja:'あつい'}, {en:'cold',  ja:'寒い'},
+        {en:'long',   ja:'長い'},  {en:'short', ja:'短い'},
+        {en:'fast',   ja:'速い'},  {en:'slow',  ja:'おそい'},
+        {en:'new',    ja:'新しい'},{en:'old',   ja:'古い'},
+        {en:'hungry', ja:'おなかがすいた'},{en:'tired',ja:'つかれた'},
+        {en:'sleepy', ja:'ねむい'},{en:'fun',   ja:'楽しい'},
+        /* ばしょ (Places) */
+        {en:'home',     ja:'家'},   {en:'park',    ja:'公園'},
+        {en:'shop',     ja:'お店'}, {en:'hospital',ja:'びょういん'},
+        {en:'station',  ja:'えき'},
+        /* てんき (Weather/Nature) */
+        {en:'rain',     ja:'雨'},  {en:'wind',    ja:'風'},
+        {en:'snow',     ja:'雪'},  {en:'mountain',ja:'山'},
+        {en:'river',    ja:'川'},  {en:'sea',     ja:'海'},
+        {en:'cloud',    ja:'雲'},
+        /* じかん (Time) */
+        {en:'morning',   ja:'朝'},  {en:'afternoon',ja:'午後'},
+        {en:'today',     ja:'今日'},{en:'tomorrow', ja:'明日'},
+        {en:'yesterday', ja:'きのう'}
+      ],
+      sent: [
+        {en:'Today is Monday.',        ja:'今日は月曜日です。'},
+        {en:'I go to school.',         ja:'学校へ行きます。'},
+        {en:'My mother is kind.',      ja:'わたしのお母さんはやさしいです。'},
+        {en:'My friend is funny.',     ja:'友だちはおもしろいです。'},
+        {en:'I study English.',        ja:'えいごをべんきょうします。'},
+        {en:'I read a book.',          ja:'本を読みます。'},
+        {en:'I run every day.',        ja:'毎日走ります。'},
+        {en:'I eat breakfast.',        ja:'朝ごはんを食べます。'},
+        {en:'I drink milk.',           ja:'ミルクを飲みます。'},
+        {en:'I like to swim.',         ja:'泳ぐのがすきです。'},
+        {en:'I write my name.',        ja:'名前を書きます。'},
+        {en:'Today is hot.',           ja:'今日はあついです。'},
+        {en:'The river is long.',      ja:'川は長いです。'},
+        {en:'I am hungry.',            ja:'おなかがすきました。'},
+        {en:'I am tired.',             ja:'つかれました。'},
+        {en:'I go to the park.',       ja:'公園へ行きます。'},
+        {en:'It is raining.',          ja:'雨がふっています。'},
+        {en:'I like singing.',         ja:'歌うのがすきです。'},
+        {en:'My teacher is nice.',     ja:'先生はいい人です。'},
+        {en:'I sleep early.',          ja:'早くねます。'}
+      ]
     }
   };
+
+  // ===== セーブデータ (localStorage) =====
+  function loadSave() {
+    try { return JSON.parse(localStorage.getItem('eiken_save')) || {points:0,passes:0,vouchers:0}; }
+    catch(e) { return {points:0,passes:0,vouchers:0}; }
+  }
+  function writeSave(d) {
+    try { localStorage.setItem('eiken_save', JSON.stringify(d)); } catch(e) {}
+  }
 
   // ===== 画面遷移 =====
   function show(id) {
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
     document.getElementById('screen-' + id).classList.add('active');
+    if (id === 'home') updateHomePoints();
   }
 
   function go(next, val) {
     if (next === 'mode') { state.grade = val; show('mode'); }
     if (next === 'diff') { state.mode  = val; show('diff'); }
     if (next === 'quiz') { state.diff  = val; startQuiz(); }
+  }
+
+  function updateHomePoints() {
+    document.getElementById('home-pts').textContent = loadSave().points;
+  }
+
+  // ===== ショップ =====
+  function openShop() {
+    const s = loadSave();
+    document.getElementById('shop-pts').textContent = s.points;
+    const cyc = s.passes % 10;
+    document.getElementById('shop-pass-bar').style.width = (cyc / 10 * 100) + '%';
+    document.getElementById('shop-pass-text').textContent = cyc + ' / 10 かいごうかく';
+    document.getElementById('shop-voucher-num').textContent = '×' + s.vouchers;
+    document.getElementById('shop-use-btn').disabled = s.vouchers <= 0;
+    show('shop');
+  }
+
+  function useVoucher() {
+    const s = loadSave();
+    if (s.vouchers <= 0) return;
+    s.vouchers--;
+    writeSave(s);
+    document.getElementById('shop-voucher-num').textContent = '×' + s.vouchers;
+    document.getElementById('shop-use-btn').disabled = s.vouchers <= 0;
+    document.getElementById('modal').classList.add('show');
+  }
+
+  function closeModal() {
+    document.getElementById('modal').classList.remove('show');
   }
 
   // ===== クイズ開始 =====
@@ -823,6 +1126,26 @@
     document.getElementById('r-pct').textContent   = pct+'% せいかい！';
     document.getElementById('r-line').textContent  = pass;
 
+    // ポイント加算・合格カウント
+    const earned = state.score * 10 + (ok ? 50 : 0);
+    const sv = loadSave();
+    sv.points += earned;
+    if (ok) {
+      sv.passes++;
+      if (sv.passes % 10 === 0) sv.vouchers++;
+    }
+    writeSave(sv);
+
+    document.getElementById('r-earned').textContent    = '+' + earned;
+    document.getElementById('r-total-pts').textContent = sv.points;
+    const cyc = sv.passes % 10;
+    const left = 10 - cyc;
+    document.getElementById('r-pass-bar').style.width  = (cyc / 10 * 100) + '%';
+    document.getElementById('r-pass-label').textContent =
+      sv.passes % 10 === 0 && ok
+        ? '🎉 10かい達成！シール引換券をゲット！'
+        : 'シール引換まで あと ' + left + ' かい合格！';
+
     // まちがえた問題
     const wr = document.getElementById('r-wrong');
     if (state.wrong.length === 0) {
@@ -837,6 +1160,9 @@
     }
     show('results');
   }
+
+  // ===== 起動時にポイント表示 =====
+  updateHomePoints();
 
   // ===== レーベンシュタイン距離（タイポ許容）=====
   function lev(a, b) {
