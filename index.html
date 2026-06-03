@@ -720,7 +720,7 @@
   // ===== 問題データ (9きゅう) =====
   const DB = {
     '9': {
-      name: '9きゅう', pass: 85,
+      name: '9きゅう', pass: 80,
       vocab: [
         /* いろ (Colors) */
         {en:'red',    ja:'赤'},
@@ -842,7 +842,7 @@
       ]
     },
     '8': {
-      name: '8きゅう', pass: 85,
+      name: '8きゅう', pass: 80,
       vocab: [
         /* ようび (Days) */
         {en:'Monday',    ja:'月曜日'}, {en:'Tuesday',  ja:'火曜日'},
@@ -1012,14 +1012,14 @@
     if (state.mode === 'vocab') pool = d.vocab.map(q=>({...q,type:'vocab'}));
     if (state.mode === 'sent')  pool = d.sent.map(q=>({...q,type:'sent'}));
     if (state.mode === 'mix') {
-      const v = shuffle([...d.vocab]).slice(0,5).map(q=>({...q,type:'vocab'}));
-      const s = shuffle([...d.sent]).slice(0,5).map(q=>({...q,type:'sent'}));
+      const v = shuffle([...d.vocab]).slice(0,10).map(q=>({...q,type:'vocab'}));
+      const s = shuffle([...d.sent]).slice(0,10).map(q=>({...q,type:'sent'}));
       pool = shuffle([...v,...s]);
     }
-    const qs = shuffle(pool).slice(0, 10);
-    // answerMode を割り当て: mixed=7選択+3記述, hard=全記述, それ以外=全選択
+    const qs = shuffle(pool).slice(0, 20);
+    // answerMode: mixed=14選択+6記述, hard=全記述, それ以外=全選択
     const modes = state.diff === 'mixed'
-      ? shuffle(['c','c','c','c','c','c','c','t','t','t'])
+      ? shuffle(['c','c','c','c','c','c','c','c','c','c','c','c','c','c','t','t','t','t','t','t'])
       : qs.map(() => state.diff === 'hard' ? 't' : 'c');
     state.questions = qs.map((q, i) => ({...q, answerMode: modes[i]}));
     state.idx = 0; state.score = 0; state.wrong = [];
