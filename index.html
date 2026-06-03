@@ -720,7 +720,7 @@
   // ===== 問題データ (9きゅう) =====
   const DB = {
     '9': {
-      name: '9きゅう', pass: 60,
+      name: '9きゅう', pass: 85,
       vocab: [
         /* いろ (Colors) */
         {en:'red',    ja:'赤'},
@@ -842,7 +842,7 @@
       ]
     },
     '8': {
-      name: '8きゅう', pass: 60,
+      name: '8きゅう', pass: 85,
       vocab: [
         /* ようび (Days) */
         {en:'Monday',    ja:'月曜日'}, {en:'Tuesday',  ja:'火曜日'},
@@ -933,10 +933,14 @@
     if (next === 'mode') { state.grade = val; show('mode'); }
     if (next === 'diff') {
       state.mode = val;
-      // 9級はかんたんモードを非表示
-      document.getElementById('btn-easy').style.display =
-        state.grade === '9' ? 'none' : 'flex';
-      show('diff');
+      if (state.grade === '9' || state.grade === '8') {
+        // 9・8級は難易度選択なし → 選択70%+記述30%ミックスで直接クイズへ
+        state.diff = 'mixed';
+        startQuiz();
+      } else {
+        document.getElementById('btn-easy').style.display = 'flex';
+        show('diff');
+      }
     }
     if (next === 'quiz') { state.diff = val; startQuiz(); }
   }
@@ -1012,7 +1016,12 @@
       const s = shuffle([...d.sent]).slice(0,5).map(q=>({...q,type:'sent'}));
       pool = shuffle([...v,...s]);
     }
-    state.questions = shuffle(pool).slice(0,10);
+    const qs = shuffle(pool).slice(0, 10);
+    // answerMode を割り当て: mixed=7選択+3記述, hard=全記述, それ以外=全選択
+    const modes = state.diff === 'mixed'
+      ? shuffle(['c','c','c','c','c','c','c','t','t','t'])
+      : qs.map(() => state.diff === 'hard' ? 't' : 'c');
+    state.questions = qs.map((q, i) => ({...q, answerMode: modes[i]}));
     state.idx = 0; state.score = 0; state.wrong = [];
     show('quiz');
     renderQ();
@@ -1073,23 +1082,21 @@
     if (q.type === 'vocab') { tb.textContent = '📝 たんご'; tb.className = 'q-type-badge vocab'; }
     else                    { tb.textContent = '💬 ぶんしょう'; tb.className = 'q-type-badge sent'; }
 
-    // ヒント表示
-    // ・かんたん：最初の1文字
-    // ・9級むずかしい：最初の1文字（難易度調整）
-    // ・それ以外：なし
-    const showHint = state.diff === 'easy' ||
-                     (state.grade === '9' && state.diff === 'hard');
+    // ヒント: 記述問題は9・8級とも最初の1文字を表示
+    const isType = q.answerMode === 't';
+    const showHint = isType || state.diff === 'easy';
     document.getElementById('q-hint').textContent =
       showHint ? 'ヒント：「' + q.en[0] + '」からはじまるよ！' : '';
 
-    if (state.diff === 'hard') {
+    if (isType) {
       document.getElementById('choice-area').style.display = 'none';
       document.getElementById('type-area').style.display   = 'block';
-      document.getElementById('type-input').value = '';
-      document.getElementById('type-input').disabled = false;
+      const inp = document.getElementById('type-input');
+      inp.value = ''; inp.disabled = false;
+      inp.style.borderColor = '#ecd5f8';
       document.getElementById('submit-btn').disabled = false;
-      document.getElementById('q-label').textContent = '日本語を見て、英語を入力してね';
-      setTimeout(()=>document.getElementById('type-input').focus(), 100);
+      document.getElementById('q-label').textContent = '✏️ 日本語を見て、英語を入力してね';
+      setTimeout(() => inp.focus(), 100);
     } else {
       document.getElementById('choice-area').style.display = 'block';
       document.getElementById('type-area').style.display   = 'none';
@@ -1102,7 +1109,7 @@
   function renderChoices(q) {
     const d   = DB[state.grade];
     const all = q.type === 'vocab' ? d.vocab : d.sent;
-    const cnt = state.diff === 'easy' ? 3 : 4;
+    const cnt = state.diff === 'easy' ? 3 : 4; // mixed/normalは4択
     const wrongs = shuffle(all.filter(x=>x.en!==q.en)).slice(0, cnt-1);
     const opts   = shuffle([q, ...wrongs]);
     const grid   = document.getElementById('options-grid');
