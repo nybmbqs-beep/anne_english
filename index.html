@@ -1017,10 +1017,8 @@
       pool = shuffle([...v,...s]);
     }
     const qs = shuffle(pool).slice(0, 20);
-    // answerMode: mixed=14選択+6記述, hard=全記述, それ以外=全選択
-    const modes = state.diff === 'mixed'
-      ? shuffle(['c','c','c','c','c','c','c','c','c','c','c','c','c','c','t','t','t','t','t','t'])
-      : qs.map(() => state.diff === 'hard' ? 't' : 'c');
+    // answerMode: 全問選択式（記述なし）
+    const modes = qs.map(() => 'c');
     state.questions = qs.map((q, i) => ({...q, answerMode: modes[i]}));
     state.idx = 0; state.score = 0; state.wrong = [];
     show('quiz');
