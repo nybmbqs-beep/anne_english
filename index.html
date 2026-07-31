@@ -375,6 +375,14 @@
       border-radius: 20px; transition: width 0.5s;
     }
 
+    /* ===== 回数せいげん（ロック）===== */
+    .btn.locked {
+      background: #ddd6e0 !important;
+      color: #948a99 !important;
+      box-shadow: none;
+    }
+    .btn.locked:active { transform: none; }
+
     /* ===== スタンプカード ===== */
     .stamp-card {
       background: linear-gradient(135deg, #fff0f8, #f5e8ff);
@@ -568,17 +576,17 @@
     <button class="back-btn" onclick="show('home')">← もどる</button>
     <div class="page-title">なにを練習する？</div>
     <div class="page-sub">えらんでね！</div>
-    <button class="btn btn-purple" onclick="go('diff','vocab')">
+    <button class="btn btn-purple" id="btn-vocab" onclick="go('diff','vocab')">
       <span class="icon">📝</span>
-      <span class="label">たんご<small>英語のたんごをおぼえよう</small></span>
+      <span class="label">たんご<small id="vocab-left">今日はあと3かいできるよ</small></span>
     </button>
     <button class="btn btn-pink" onclick="go('diff','sent')">
       <span class="icon">💬</span>
-      <span class="label">ぶんしょう<small>英語のぶんをおぼえよう</small></span>
+      <span class="label">ぶんしょう<small>英語のぶんをおぼえよう（せいげんなし）</small></span>
     </button>
     <button class="btn btn-blue" onclick="go('diff','mix')">
       <span class="icon">🎯</span>
-      <span class="label">ミックス<small>たんご5もん＋ぶんしょう5もん</small></span>
+      <span class="label">ミックス<small>たんご10もん＋ぶんしょう10もん</small></span>
     </button>
   </div>
 
@@ -922,6 +930,45 @@
     try { localStorage.setItem('eiken_save', JSON.stringify(d)); } catch(e) {}
   }
 
+  // ===== たんごモードの1日3かいせいげん =====
+  const VOCAB_LIMIT = 3;
+
+  function todayKey() {
+    const d = new Date();
+    return d.getFullYear() + '-' + (d.getMonth()+1) + '-' + d.getDate();
+  }
+
+  // 今日たんごモードを何かいやったか
+  function vocabCount() {
+    const sv = loadSave();
+    return (sv.vocabDate === todayKey()) ? (sv.vocabCount || 0) : 0;
+  }
+
+  function vocabLeft() {
+    return Math.max(0, VOCAB_LIMIT - vocabCount());
+  }
+
+  function addVocabCount() {
+    const sv = loadSave();
+    if (sv.vocabDate !== todayKey()) { sv.vocabDate = todayKey(); sv.vocabCount = 0; }
+    sv.vocabCount = (sv.vocabCount || 0) + 1;
+    writeSave(sv);
+  }
+
+  // モード選択画面のひょうじを更新
+  function updateVocabButton() {
+    const left = vocabLeft();
+    const btn  = document.getElementById('btn-vocab');
+    const txt  = document.getElementById('vocab-left');
+    if (left > 0) {
+      btn.classList.remove('locked');
+      txt.textContent = '今日はあと ' + left + ' かいできるよ（1日3かいまで）';
+    } else {
+      btn.classList.add('locked');
+      txt.textContent = '🔒 今日はおしまい！また明日ね';
+    }
+  }
+
   // ===== 画面遷移 =====
   function show(id) {
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
@@ -930,8 +977,13 @@
   }
 
   function go(next, val) {
-    if (next === 'mode') { state.grade = val; show('mode'); }
+    if (next === 'mode') { state.grade = val; updateVocabButton(); show('mode'); }
     if (next === 'diff') {
+      // たんごモードは1日3かいまで
+      if (val === 'vocab' && vocabLeft() <= 0) {
+        alert('🔒 たんごは1日3かいまでだよ！\nぶんしょうかミックスをやってみよう ✨');
+        return;
+      }
       state.mode = val;
       if (state.grade === '9' || state.grade === '8') {
         // 9・8級は難易度選択なし → 選択70%+記述30%ミックスで直接クイズへ
@@ -1007,6 +1059,17 @@
   }
 
   function startQuiz() {
+    // たんごモードは1日3かいまで（「もう一かい」もカウント）
+    if (state.mode === 'vocab') {
+      if (vocabLeft() <= 0) {
+        alert('🔒 たんごは1日3かいまでだよ！\nぶんしょうかミックスをやってみよう ✨');
+        updateVocabButton();
+        show('mode');
+        return;
+      }
+      addVocabCount();
+      updateVocabButton();
+    }
     const d = DB[state.grade];
     let pool = [];
     if (state.mode === 'vocab') pool = d.vocab.map(q=>({...q,type:'vocab'}));
