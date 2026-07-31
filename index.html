@@ -569,6 +569,10 @@
       <span class="icon">🌿</span>
       <span class="label">8きゅう<small>すこし慣れてきた人</small></span>
     </button>
+    <button class="btn btn-peach"  onclick="go('mode','7')">
+      <span class="icon">🌸</span>
+      <span class="label">7きゅう<small>どんどん上手に！</small></span>
+    </button>
   </div>
 
   <!-- モード選択 -->
@@ -578,35 +582,20 @@
     <div class="page-sub">えらんでね！</div>
     <button class="btn btn-purple" id="btn-vocab" onclick="go('diff','vocab')">
       <span class="icon">📝</span>
-      <span class="label">たんご<small id="vocab-left">今日はあと3かいできるよ</small></span>
+      <span class="label">たんご<small id="vocab-left"></small></span>
     </button>
-    <button class="btn btn-pink" onclick="go('diff','sent')">
+    <button class="btn btn-pink" id="btn-sent" onclick="go('diff','sent')">
       <span class="icon">💬</span>
-      <span class="label">ぶんしょう<small>英語のぶんをおぼえよう（せいげんなし）</small></span>
+      <span class="label">ぶんしょう<small id="sent-left"></small></span>
     </button>
-    <button class="btn btn-blue" onclick="go('diff','mix')">
+    <button class="btn btn-blue" id="btn-mix" onclick="go('diff','mix')">
       <span class="icon">🎯</span>
-      <span class="label">ミックス<small>たんご10もん＋ぶんしょう10もん</small></span>
+      <span class="label">ミックス<small id="mix-left"></small></span>
     </button>
   </div>
 
-  <!-- むずかしさ選択 -->
+  <!-- むずかしさ選択（今はつかっていないよ） -->
   <div id="screen-diff" class="screen">
-    <button class="back-btn" onclick="show('mode')">← もどる</button>
-    <div class="page-title">むずかしさは？</div>
-    <div class="page-sub">じぶんにあったレベルをえらんでね</div>
-    <button class="btn btn-mint" id="btn-easy" onclick="go('quiz','easy')">
-      <span class="icon">😊</span>
-      <span class="label">かんたん<small>3つからえらぶ・ヒントあり！</small></span>
-    </button>
-    <button class="btn btn-peach"  onclick="go('quiz','normal')">
-      <span class="icon">😤</span>
-      <span class="label">ふつう<small>4つからえらぶ・ヒントなし</small></span>
-    </button>
-    <button class="btn btn-red"    onclick="go('quiz','hard')">
-      <span class="icon">💪</span>
-      <span class="label">むずかしい<small>じぶんで英語を入力！チャレンジ！</small></span>
-    </button>
   </div>
 
   <!-- クイズ画面 -->
@@ -918,6 +907,82 @@
         {en:'My teacher is nice.',     ja:'先生はいい人です。'},
         {en:'I sleep early.',          ja:'早くねます。'}
       ]
+    },
+    '7': {
+      name: '7きゅう', pass: 80,
+      vocab: [
+        /* つき (Months) */
+        {en:'January',  ja:'1月'}, {en:'February', ja:'2月'},
+        {en:'March',    ja:'3月'}, {en:'April',    ja:'4月'},
+        {en:'May',      ja:'5月'}, {en:'June',     ja:'6月'},
+        {en:'July',     ja:'7月'}, {en:'August',   ja:'8月'},
+        {en:'September',ja:'9月'}, {en:'October',  ja:'10月'},
+        {en:'November', ja:'11月'},{en:'December', ja:'12月'},
+        /* きせつ・てんき (Seasons) */
+        {en:'spring', ja:'春'},   {en:'summer', ja:'夏'},
+        {en:'autumn', ja:'秋'},   {en:'winter', ja:'冬'},
+        {en:'sunny',  ja:'晴れ'}, {en:'cloudy', ja:'くもり'},
+        {en:'rainy',  ja:'雨ふり'},{en:'windy',  ja:'風がつよい'},
+        /* しょくぎょう (Jobs) */
+        {en:'doctor',   ja:'お医者さん'}, {en:'nurse',   ja:'かんごし'},
+        {en:'police officer', ja:'けいさつかん'},
+        {en:'singer',   ja:'歌手'},      {en:'cook',    ja:'コック'},
+        {en:'farmer',   ja:'のうか'},    {en:'driver',  ja:'うんてんしゅ'},
+        /* きょうか (Subjects) */
+        {en:'English', ja:'えいご'},     {en:'math',    ja:'算数'},
+        {en:'science', ja:'理科'},       {en:'music',   ja:'音楽'},
+        {en:'art',     ja:'美術'},       {en:'history', ja:'歴史'},
+        /* スポーツ・しゅみ (Sports) */
+        {en:'soccer',     ja:'サッカー'}, {en:'baseball', ja:'やきゅう'},
+        {en:'basketball', ja:'バスケ'},   {en:'tennis',   ja:'テニス'},
+        {en:'swimming',   ja:'すいえい'}, {en:'dancing',  ja:'ダンス'},
+        {en:'cooking',    ja:'りょうり'}, {en:'reading',  ja:'どくしょ'},
+        /* まち (Town) */
+        {en:'library',    ja:'図書館'},   {en:'museum',   ja:'はくぶつかん'},
+        {en:'restaurant', ja:'レストラン'},{en:'bank',    ja:'ぎんこう'},
+        {en:'post office',ja:'ゆうびんきょく'},
+        {en:'airport',    ja:'くうこう'}, {en:'zoo',      ja:'どうぶつえん'},
+        /* うごき (Verbs) */
+        {en:'help',   ja:'たすける'},  {en:'make',    ja:'作る'},
+        {en:'buy',    ja:'買う'},      {en:'give',    ja:'あげる'},
+        {en:'take',   ja:'とる'},      {en:'wash',    ja:'あらう'},
+        {en:'clean',  ja:'そうじする'},{en:'open',    ja:'開ける'},
+        {en:'close',  ja:'しめる'},    {en:'start',   ja:'はじめる'},
+        {en:'finish', ja:'おわる'},    {en:'practice',ja:'れんしゅうする'},
+        /* ようす (Adjectives) */
+        {en:'beautiful',  ja:'うつくしい'}, {en:'kind',     ja:'やさしい'},
+        {en:'strong',     ja:'つよい'},     {en:'busy',     ja:'いそがしい'},
+        {en:'difficult',  ja:'むずかしい'}, {en:'easy',     ja:'かんたん'},
+        {en:'delicious',  ja:'おいしい'},   {en:'famous',   ja:'ゆうめい'},
+        {en:'important',  ja:'たいせつ'},   {en:'favorite', ja:'いちばんすき'}
+      ],
+      sent: [
+        {en:'My birthday is in May.',        ja:'わたしのたんじょう日は5月です。'},
+        {en:'I like summer the best.',       ja:'夏がいちばんすきです。'},
+        {en:'It is sunny today.',            ja:'今日は晴れです。'},
+        {en:'I want to be a doctor.',        ja:'お医者さんになりたいです。'},
+        {en:'My favorite subject is math.',  ja:'いちばんすきな教科は算数です。'},
+        {en:'I play soccer after school.',   ja:'ほうかご、サッカーをします。'},
+        {en:'I go to the library.',          ja:'図書館へ行きます。'},
+        {en:'This cake is delicious.',       ja:'このケーキはおいしいです。'},
+        {en:'My mother is very kind.',       ja:'お母さんはとてもやさしいです。'},
+        {en:'I help my mother.',             ja:'お母さんをたすけます。'},
+        {en:'English is difficult.',         ja:'えいごはむずかしいです。'},
+        {en:'I practice the piano.',         ja:'ピアノをれんしゅうします。'},
+        {en:'What time is it now?',          ja:'今、何時ですか。'},
+        {en:'How are you today?',            ja:'今日はごきげんいかがですか。'},
+        {en:'Where do you live?',            ja:'どこに住んでいますか。'},
+        {en:'I can swim very well.',         ja:'とてもじょうずに泳げます。'},
+        {en:'She is my best friend.',        ja:'かのじょはいちばんの友だちです。'},
+        {en:'I wash my hands.',              ja:'手をあらいます。'},
+        {en:'Let us play together.',         ja:'いっしょに遊びましょう。'},
+        {en:'I am busy today.',              ja:'今日はいそがしいです。'},
+        {en:'The flower is beautiful.',      ja:'花はうつくしいです。'},
+        {en:'I clean my room.',              ja:'へやをそうじします。'},
+        {en:'This book is famous.',          ja:'この本はゆうめいです。'},
+        {en:'I buy a new bag.',              ja:'新しいかばんを買います。'},
+        {en:'Winter is very cold.',          ja:'冬はとても寒いです。'}
+      ]
     }
   };
 
@@ -930,43 +995,61 @@
     try { localStorage.setItem('eiken_save', JSON.stringify(d)); } catch(e) {}
   }
 
-  // ===== たんごモードの1日3かいせいげん =====
-  const VOCAB_LIMIT = 3;
+  // ===== 1日のごうかくせいげん =====
+  // 級ごと・モードごとに「ごうかく3かい」まで
+  // → 1つの級で1日さいだい9かいごうかく
+  // → スタンプ10こ目は、つぎの級をやらないとたまらない！
+  const PASS_LIMIT = 3;
 
   function todayKey() {
     const d = new Date();
     return d.getFullYear() + '-' + (d.getMonth()+1) + '-' + d.getDate();
   }
 
-  // 今日たんごモードを何かいやったか
-  function vocabCount() {
+  // 今日のごうかくかいすう（級＋モードごと）
+  function dailyMap() {
     const sv = loadSave();
-    return (sv.vocabDate === todayKey()) ? (sv.vocabCount || 0) : 0;
+    return (sv.dailyDate === todayKey()) ? (sv.daily || {}) : {};
   }
 
-  function vocabLeft() {
-    return Math.max(0, VOCAB_LIMIT - vocabCount());
+  function passCount(grade, mode) {
+    return dailyMap()[grade + '-' + mode] || 0;
   }
 
-  function addVocabCount() {
+  function passLeft(grade, mode) {
+    return Math.max(0, PASS_LIMIT - passCount(grade, mode));
+  }
+
+  function addPass(grade, mode) {
     const sv = loadSave();
-    if (sv.vocabDate !== todayKey()) { sv.vocabDate = todayKey(); sv.vocabCount = 0; }
-    sv.vocabCount = (sv.vocabCount || 0) + 1;
+    if (sv.dailyDate !== todayKey()) { sv.dailyDate = todayKey(); sv.daily = {}; }
+    if (!sv.daily) sv.daily = {};
+    const k = grade + '-' + mode;
+    sv.daily[k] = (sv.daily[k] || 0) + 1;
     writeSave(sv);
   }
 
   // モード選択画面のひょうじを更新
-  function updateVocabButton() {
-    const left = vocabLeft();
-    const btn  = document.getElementById('btn-vocab');
-    const txt  = document.getElementById('vocab-left');
-    if (left > 0) {
-      btn.classList.remove('locked');
-      txt.textContent = '今日はあと ' + left + ' かいできるよ（1日3かいまで）';
-    } else {
-      btn.classList.add('locked');
-      txt.textContent = '🔒 今日はおしまい！また明日ね';
-    }
+  const MODE_LABELS = {
+    vocab: '英語のたんごをおぼえよう',
+    sent:  '英語のぶんをおぼえよう',
+    mix:   'たんご10もん＋ぶんしょう10もん'
+  };
+
+  function updateModeButtons() {
+    ['vocab','sent','mix'].forEach(m => {
+      const left = passLeft(state.grade, m);
+      const btn  = document.getElementById('btn-' + m);
+      const txt  = document.getElementById(m + '-left');
+      if (!btn || !txt) return;
+      if (left > 0) {
+        btn.classList.remove('locked');
+        txt.textContent = MODE_LABELS[m] + '（あと ' + left + ' かいごうかくできる）';
+      } else {
+        btn.classList.add('locked');
+        txt.textContent = '🔒 今日はごうかく3かい達成！つぎの級にチャレンジ！';
+      }
+    });
   }
 
   // ===== 画面遷移 =====
@@ -977,22 +1060,17 @@
   }
 
   function go(next, val) {
-    if (next === 'mode') { state.grade = val; updateVocabButton(); show('mode'); }
+    if (next === 'mode') { state.grade = val; updateModeButtons(); show('mode'); }
     if (next === 'diff') {
-      // たんごモードは1日3かいまで
-      if (val === 'vocab' && vocabLeft() <= 0) {
-        alert('🔒 たんごは1日3かいまでだよ！\nぶんしょうかミックスをやってみよう ✨');
+      // 級＋モードごとに1日ごうかく3かいまで
+      if (passLeft(state.grade, val) <= 0) {
+        alert('🔒 このモードは今日3かいごうかくしたよ！\nほかのモードか、つぎの級にチャレンジしてみよう ✨');
         return;
       }
       state.mode = val;
-      if (state.grade === '9' || state.grade === '8') {
-        // 9・8級は難易度選択なし → 選択70%+記述30%ミックスで直接クイズへ
-        state.diff = 'mixed';
-        startQuiz();
-      } else {
-        document.getElementById('btn-easy').style.display = 'flex';
-        show('diff');
-      }
+      // 9・8・7級は難易度選択なし → 直接クイズへ
+      state.diff = 'mixed';
+      startQuiz();
     }
     if (next === 'quiz') { state.diff = val; startQuiz(); }
   }
@@ -1059,16 +1137,12 @@
   }
 
   function startQuiz() {
-    // たんごモードは1日3かいまで（「もう一かい」もカウント）
-    if (state.mode === 'vocab') {
-      if (vocabLeft() <= 0) {
-        alert('🔒 たんごは1日3かいまでだよ！\nぶんしょうかミックスをやってみよう ✨');
-        updateVocabButton();
-        show('mode');
-        return;
-      }
-      addVocabCount();
-      updateVocabButton();
+    // 級＋モードごとに1日ごうかく3かいまで（「もう一かい」もチェック）
+    if (passLeft(state.grade, state.mode) <= 0) {
+      alert('🔒 このモードは今日3かいごうかくしたよ！\nほかのモードか、つぎの級にチャレンジしてみよう ✨');
+      updateModeButtons();
+      show('mode');
+      return;
     }
     const d = DB[state.grade];
     let pool = [];
@@ -1305,6 +1379,8 @@
       if (sv.passes % 10 === 0) sv.vouchers++;
     }
     writeSave(sv);
+    // ごうかくしたら、その級＋モードの今日のカウントを1つふやす
+    if (ok) addPass(state.grade, state.mode);
 
     document.getElementById('r-earned').textContent    = '+' + earned;
     document.getElementById('r-total-pts').textContent = sv.points;
