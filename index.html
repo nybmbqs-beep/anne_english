@@ -561,17 +561,21 @@
       <div class="stamp-card-sub" id="stamp-sub">10かいごうかくでシール引換券ゲット！</div>
     </div>
     <div class="home-grade-label">どのきゅうにチャレンジする？</div>
-    <button class="btn btn-pink"   onclick="go('mode','9')">
+    <button class="btn btn-pink"   onclick="go('mode','8')">
       <span class="icon">🌱</span>
-      <span class="label">9きゅう<small>はじめてさん・ここからスタート！</small></span>
+      <span class="label">8きゅう<small>ここからスタート！</small></span>
     </button>
-    <button class="btn btn-blue"   onclick="go('mode','8')">
+    <button class="btn btn-blue"   onclick="go('mode','7')">
       <span class="icon">🌿</span>
-      <span class="label">8きゅう<small>すこし慣れてきた人</small></span>
-    </button>
-    <button class="btn btn-peach"  onclick="go('mode','7')">
-      <span class="icon">🌸</span>
       <span class="label">7きゅう<small>どんどん上手に！</small></span>
+    </button>
+    <button class="btn btn-peach"  onclick="go('mode','5')">
+      <span class="icon">🌸</span>
+      <span class="label">5きゅう<small>英検5きゅうにチャレンジ！</small></span>
+    </button>
+    <button class="btn btn-yellow" onclick="go('mode','4')">
+      <span class="icon">⭐</span>
+      <span class="label">4きゅう<small>英検4きゅう・いちばんむずかしい！</small></span>
     </button>
   </div>
 
@@ -601,7 +605,7 @@
   <!-- クイズ画面 -->
   <div id="screen-quiz" class="screen">
     <div class="quiz-header">
-      <span class="q-badge" id="q-badge">9きゅう</span>
+      <span class="q-badge" id="q-badge">8きゅう</span>
       <span class="q-progress" id="q-progress">1 / 10</span>
       <span class="q-score" id="q-score">⭐ 0</span>
     </div>
@@ -714,130 +718,8 @@
     answered: false, wrong: []
   };
 
-  // ===== 問題データ (9きゅう) =====
+  // ===== 問題データ (8・7・5・4きゅう) =====
   const DB = {
-    '9': {
-      name: '9きゅう', pass: 80,
-      vocab: [
-        /* いろ (Colors) */
-        {en:'red',    ja:'赤'},
-        {en:'blue',   ja:'青'},
-        {en:'green',  ja:'みどり'},
-        {en:'yellow', ja:'黄色'},
-        {en:'white',  ja:'白'},
-        {en:'black',  ja:'黒'},
-        {en:'pink',   ja:'ピンク'},
-        {en:'purple', ja:'むらさき'},
-        {en:'brown',  ja:'茶色'},
-        /* かず (Numbers) */
-        {en:'one',   ja:'一'},
-        {en:'two',   ja:'二'},
-        {en:'three', ja:'三'},
-        {en:'four',  ja:'四'},
-        {en:'five',  ja:'五'},
-        {en:'six',   ja:'六'},
-        {en:'seven', ja:'七'},
-        {en:'eight', ja:'八'},
-        {en:'nine',  ja:'九'},
-        {en:'ten',   ja:'十'},
-        /* どうぶつ (Animals) */
-        {en:'cat',    ja:'ねこ'},
-        {en:'dog',    ja:'犬'},
-        {en:'bird',   ja:'鳥'},
-        {en:'fish',   ja:'魚'},
-        {en:'rabbit', ja:'うさぎ'},
-        {en:'bear',   ja:'くま'},
-        {en:'lion',   ja:'ライオン'},
-        {en:'horse',  ja:'馬'},
-        {en:'cow',    ja:'牛'},
-        {en:'pig',    ja:'ぶた'},
-        {en:'monkey', ja:'さる'},
-        /* たべもの (Food) */
-        {en:'apple',  ja:'りんご'},
-        {en:'banana', ja:'バナナ'},
-        {en:'orange', ja:'オレンジ'},
-        {en:'cake',   ja:'ケーキ'},
-        {en:'bread',  ja:'パン'},
-        {en:'milk',   ja:'ミルク'},
-        {en:'juice',  ja:'ジュース'},
-        {en:'egg',    ja:'たまご'},
-        {en:'rice',   ja:'ごはん'},
-        {en:'candy',  ja:'あめ'},
-        /* からだ (Body) */
-        {en:'eye',  ja:'目'},
-        {en:'ear',  ja:'耳'},
-        {en:'nose', ja:'鼻'},
-        {en:'mouth',ja:'口'},
-        {en:'hand', ja:'手'},
-        {en:'foot', ja:'足'},
-        {en:'head', ja:'頭'},
-        {en:'hair', ja:'かみ'},
-        /* きもち・ようす (Feelings) */
-        {en:'happy', ja:'うれしい'},
-        {en:'sad',   ja:'悲しい'},
-        {en:'big',   ja:'大きい'},
-        {en:'small', ja:'小さい'},
-        {en:'cute',  ja:'かわいい'},
-        {en:'good',  ja:'よい'},
-        /* もの (Objects) */
-        {en:'book',   ja:'本'},
-        {en:'ball',   ja:'ボール'},
-        {en:'pen',    ja:'ペン'},
-        {en:'pencil', ja:'えんぴつ'},
-        {en:'bag',    ja:'かばん'},
-        {en:'chair',  ja:'いす'},
-        {en:'table',  ja:'テーブル'},
-        {en:'door',   ja:'ドア'},
-        {en:'window', ja:'まど'},
-        {en:'car',    ja:'車'},
-        {en:'bus',    ja:'バス'},
-        /* しぜん (Nature) */
-        {en:'sun',    ja:'たいよう'},
-        {en:'star',   ja:'星'},
-        {en:'tree',   ja:'木'},
-        {en:'flower', ja:'花'},
-        {en:'water',  ja:'水'},
-      ],
-      sent: [
-        /* あいさつ (Greetings) */
-        {en:'Good morning!',         ja:'おはようございます！'},
-        {en:'Good evening!',         ja:'こんばんは！'},
-        {en:'Good night!',           ja:'おやすみなさい！'},
-        {en:'Thank you.',            ja:'ありがとう。'},
-        {en:'Hello!',                ja:'こんにちは！'},
-        /* This is ~ */
-        {en:'This is a cat.',        ja:'これはねこです。'},
-        {en:'This is a dog.',        ja:'これは犬です。'},
-        {en:'This is a rabbit.',     ja:'これはうさぎです。'},
-        {en:'This is water.',        ja:'これは水です。'},
-        {en:'This is a red ball.',   ja:'これは赤いボールです。'},
-        {en:'This is a white egg.',  ja:'これは白いたまごです。'},
-        /* I am ~ */
-        {en:'I am happy.',           ja:'わたしはうれしいです。'},
-        {en:'I am sad.',             ja:'わたしは悲しいです。'},
-        /* I like ~ */
-        {en:'I like apples.',        ja:'わたしはりんごがすきです。'},
-        {en:'I like milk.',          ja:'わたしはミルクがすきです。'},
-        {en:'I like bread.',         ja:'わたしはパンがすきです。'},
-        {en:'I like juice.',         ja:'わたしはジュースがすきです。'},
-        {en:'I like fish.',          ja:'わたしは魚がすきです。'},
-        /* I have ~ */
-        {en:'I have a book.',        ja:'わたしは本をもっています。'},
-        {en:'I have a pen.',         ja:'わたしはペンをもっています。'},
-        {en:'I have a pencil.',      ja:'わたしはえんぴつをもっています。'},
-        {en:'I have a bag.',         ja:'わたしはかばんをもっています。'},
-        /* I can see ~ */
-        {en:'I can see a bird.',     ja:'鳥が見えます。'},
-        {en:'I can see the sun.',    ja:'たいようが見えます。'},
-        {en:'I can see a horse.',    ja:'馬が見えます。'},
-        {en:'I see a star.',         ja:'星が見えます。'},
-        /* The ~ is ~ */
-        {en:'The sky is blue.',      ja:'空は青いです。'},
-        {en:'The flower is cute.',   ja:'花はかわいいです。'},
-        {en:'The cat is small.',     ja:'ねこは小さいです。'},
-        {en:'The bear is big.',      ja:'くまは大きいです。'},
-      ]
-    },
     '8': {
       name: '8きゅう', pass: 80,
       vocab: [
@@ -982,6 +864,153 @@
         {en:'This book is famous.',          ja:'この本はゆうめいです。'},
         {en:'I buy a new bag.',              ja:'新しいかばんを買います。'},
         {en:'Winter is very cold.',          ja:'冬はとても寒いです。'}
+      ]
+    },
+    '5': {
+      name: '5きゅう', pass: 80,
+      vocab: [
+        /* まいにちのこと (Daily life) */
+        {en:'breakfast', ja:'朝ごはん'},   {en:'lunch',    ja:'昼ごはん'},
+        {en:'dinner',    ja:'ばんごはん'}, {en:'weekend',  ja:'しゅうまつ'},
+        {en:'birthday',  ja:'たんじょう日'},{en:'vacation', ja:'休み'},
+        {en:'clock',     ja:'とけい'},     {en:'calendar', ja:'カレンダー'},
+        /* かぞく (Family) */
+        {en:'grandmother', ja:'おばあさん'}, {en:'grandfather', ja:'おじいさん'},
+        {en:'parents',     ja:'りょうしん'}, {en:'uncle',       ja:'おじさん'},
+        {en:'aunt',        ja:'おばさん'},   {en:'classmate',   ja:'クラスメート'},
+        /* がっこう (School) */
+        {en:'homework',   ja:'しゅくだい'},  {en:'test',       ja:'テスト'},
+        {en:'lesson',     ja:'じゅぎょう'},  {en:'club',       ja:'クラブ'},
+        {en:'uniform',    ja:'せいふく'},    {en:'dictionary', ja:'じしょ'},
+        /* いえ (Home) */
+        {en:'kitchen',  ja:'だいどころ'}, {en:'bedroom', ja:'しんしつ'},
+        {en:'bathroom', ja:'おふろば'},   {en:'garden',  ja:'にわ'},
+        {en:'floor',    ja:'ゆか'},       {en:'wall',    ja:'かべ'},
+        {en:'roof',     ja:'やね'},
+        /* うごき (Verbs) */
+        {en:'become',   ja:'なる'},       {en:'bring',    ja:'もってくる'},
+        {en:'carry',    ja:'はこぶ'},     {en:'catch',    ja:'つかまえる'},
+        {en:'choose',   ja:'えらぶ'},     {en:'climb',    ja:'のぼる'},
+        {en:'enjoy',    ja:'楽しむ'},     {en:'forget',   ja:'わすれる'},
+        {en:'remember', ja:'おぼえている'},{en:'invite',   ja:'さそう'},
+        {en:'learn',    ja:'学ぶ'},       {en:'meet',     ja:'会う'},
+        {en:'need',     ja:'ひつよう'},   {en:'send',     ja:'おくる'},
+        {en:'show',     ja:'見せる'},     {en:'stay',     ja:'とまる'},
+        {en:'teach',    ja:'教える'},     {en:'understand',ja:'わかる'},
+        {en:'visit',    ja:'たずねる'},   {en:'wait',     ja:'まつ'},
+        {en:'want',     ja:'ほしい'},     {en:'worry',    ja:'しんぱいする'},
+        /* ようす (Adjectives) */
+        {en:'angry',     ja:'おこっている'}, {en:'clean',     ja:'きれいな'},
+        {en:'dark',      ja:'暗い'},         {en:'dirty',     ja:'きたない'},
+        {en:'early',     ja:'早い'},         {en:'expensive', ja:'ねだんが高い'},
+        {en:'free',      ja:'ひまな'},       {en:'funny',     ja:'おもしろい'},
+        {en:'healthy',   ja:'げんきな'},     {en:'heavy',     ja:'重い'},
+        {en:'light',     ja:'軽い'},         {en:'quiet',     ja:'しずかな'},
+        {en:'ready',     ja:'じゅんびできた'},{en:'sick',      ja:'びょうき'},
+        {en:'special',   ja:'とくべつな'},   {en:'wonderful', ja:'すばらしい'},
+        {en:'young',     ja:'わかい'},
+        /* ひんど (Frequency) */
+        {en:'always',    ja:'いつも'},     {en:'usually',   ja:'たいてい'},
+        {en:'sometimes', ja:'ときどき'},   {en:'often',     ja:'よく'},
+        {en:'never',     ja:'ぜんぜん〜ない'},{en:'together',ja:'いっしょに'}
+      ],
+      sent: [
+        {en:'I usually get up at seven.',   ja:'わたしはたいてい7時に起きます。'},
+        {en:'She is reading a book.',       ja:'かのじょは本を読んでいます。'},
+        {en:'He can play the guitar.',      ja:'かれはギターがひけます。'},
+        {en:'Do you like music?',           ja:'音楽はすきですか。'},
+        {en:'What is your name?',           ja:'お名前は何ですか。'},
+        {en:'Where is my dictionary?',      ja:'わたしのじしょはどこですか。'},
+        {en:'I have a lot of homework.',    ja:'しゅくだいがたくさんあります。'},
+        {en:'We are good friends.',         ja:'わたしたちはなかよしです。'},
+        {en:'My father works at a bank.',   ja:'お父さんはぎんこうではたらいています。'},
+        {en:'Let us go to the park.',       ja:'公園へ行きましょう。'},
+        {en:'I want to visit Kyoto.',       ja:'京都をたずねたいです。'},
+        {en:'Please wait a moment.',        ja:'少しまってください。'},
+        {en:'She is very kind to me.',      ja:'かのじょはわたしにとてもやさしいです。'},
+        {en:'I am not busy today.',         ja:'今日はいそがしくありません。'},
+        {en:'Can you help me?',             ja:'てつだってくれますか。'},
+        {en:'It is time for dinner.',       ja:'ばんごはんの時間です。'},
+        {en:'They are playing soccer.',     ja:'かれらはサッカーをしています。'},
+        {en:'I go to school by bus.',       ja:'バスで学校へ行きます。'},
+        {en:'My birthday is in April.',     ja:'たんじょう日は4月です。'},
+        {en:'This bag is very heavy.',      ja:'このかばんはとても重いです。'},
+        {en:'I always eat breakfast.',      ja:'いつも朝ごはんを食べます。'},
+        {en:'I like this song very much.',  ja:'この歌が大すきです。'},
+        {en:'Do not forget your umbrella.', ja:'かさをわすれないでね。'},
+        {en:'What time do you go to bed?',  ja:'何時にねますか。'},
+        {en:'I enjoyed the party.',         ja:'パーティーを楽しみました。'}
+      ]
+    },
+    '4': {
+      name: '4きゅう', pass: 80,
+      vocab: [
+        /* なまえのことば (Nouns) */
+        {en:'airplane',   ja:'ひこうき'},   {en:'animal',     ja:'動物'},
+        {en:'answer',     ja:'答え'},       {en:'bridge',     ja:'はし'},
+        {en:'building',   ja:'たてもの'},   {en:'child',      ja:'子ども'},
+        {en:'college',    ja:'大学'},       {en:'company',    ja:'会社'},
+        {en:'culture',    ja:'ぶんか'},     {en:'customer',   ja:'おきゃくさん'},
+        {en:'difference', ja:'ちがい'},     {en:'earth',      ja:'地球'},
+        {en:'example',    ja:'れい'},       {en:'experience', ja:'けいけん'},
+        {en:'future',     ja:'みらい'},     {en:'health',     ja:'けんこう'},
+        {en:'hobby',      ja:'しゅみ'},     {en:'idea',       ja:'かんがえ'},
+        {en:'language',   ja:'ことば'},     {en:'machine',    ja:'きかい'},
+        {en:'meaning',    ja:'いみ'},       {en:'mistake',    ja:'まちがい'},
+        {en:'nature',     ja:'しぜん'},     {en:'opinion',    ja:'いけん'},
+        {en:'problem',    ja:'問題'},       {en:'reason',     ja:'りゆう'},
+        {en:'result',     ja:'けっか'},     {en:'space',      ja:'うちゅう'},
+        {en:'subject',    ja:'かもく'},     {en:'village',    ja:'村'},
+        /* うごき (Verbs) */
+        {en:'agree',     ja:'さんせいする'}, {en:'arrive',    ja:'つく'},
+        {en:'believe',   ja:'しんじる'},     {en:'borrow',    ja:'かりる'},
+        {en:'build',     ja:'たてる'},       {en:'change',    ja:'かえる'},
+        {en:'decide',    ja:'きめる'},       {en:'explain',   ja:'せつめいする'},
+        {en:'happen',    ja:'おこる'},       {en:'introduce', ja:'しょうかいする'},
+        {en:'keep',      ja:'つづける'},     {en:'lend',      ja:'かす'},
+        {en:'lose',      ja:'なくす'},       {en:'notice',    ja:'気づく'},
+        {en:'prepare',   ja:'じゅんびする'}, {en:'protect',   ja:'まもる'},
+        {en:'receive',   ja:'受け取る'},     {en:'repeat',    ja:'くりかえす'},
+        {en:'return',    ja:'帰る'},         {en:'share',     ja:'わける'},
+        {en:'solve',     ja:'かいけつする'}, {en:'travel',    ja:'旅行する'},
+        /* ようす (Adjectives) */
+        {en:'afraid',      ja:'こわい'},       {en:'boring',   ja:'たいくつな'},
+        {en:'careful',     ja:'気をつける'},   {en:'certain',  ja:'たしかな'},
+        {en:'convenient',  ja:'べんりな'},     {en:'excited',  ja:'わくわくした'},
+        {en:'necessary',   ja:'ひつような'},   {en:'nervous',  ja:'きんちょうした'},
+        {en:'perfect',     ja:'かんぺきな'},   {en:'polite',   ja:'ていねいな'},
+        {en:'popular',     ja:'にんきのある'}, {en:'possible', ja:'できる'},
+        {en:'proud',       ja:'ほこらしい'},   {en:'serious',  ja:'まじめな'},
+        {en:'similar',     ja:'にている'},     {en:'surprised',ja:'おどろいた'},
+        {en:'terrible',    ja:'ひどい'},       {en:'useful',   ja:'やくに立つ'},
+        {en:'various',     ja:'いろいろな'}
+      ],
+      sent: [
+        {en:'I went to the zoo yesterday.',      ja:'きのう、どうぶつ園へ行きました。'},
+        {en:'She was very happy.',               ja:'かのじょはとてもうれしそうでした。'},
+        {en:'We will go to Osaka next week.',    ja:'来週、おおさかへ行きます。'},
+        {en:'He is taller than his brother.',    ja:'かれはおにいさんよりせが高いです。'},
+        {en:'This book is more interesting.',    ja:'この本のほうがおもしろいです。'},
+        {en:'There is a big park near my house.',ja:'家のちかくに大きな公園があります。'},
+        {en:'There are many students here.',     ja:'ここにたくさんのせいとがいます。'},
+        {en:'I want to be a teacher.',           ja:'先生になりたいです。'},
+        {en:'I have to finish my homework.',     ja:'しゅくだいをおわらせなければなりません。'},
+        {en:'It started raining.',               ja:'雨がふりはじめました。'},
+        {en:'What did you do last Sunday?',      ja:'この前の日曜日、何をしましたか。'},
+        {en:'How long did you stay there?',      ja:'どのくらいそこにいましたか。'},
+        {en:'Which do you like better?',         ja:'どちらのほうがすきですか。'},
+        {en:'She is the best singer here.',      ja:'かのじょはここでいちばん歌がうまいです。'},
+        {en:'I was watching TV then.',           ja:'そのとき、テレビを見ていました。'},
+        {en:'Could you tell me the way?',        ja:'道を教えてくれますか。'},
+        {en:'I am going to visit my grandmother.',ja:'おばあさんに会いに行きます。'},
+        {en:'He did not come to school today.',  ja:'かれは今日、学校へ来ませんでした。'},
+        {en:'The test was very difficult.',      ja:'テストはとてもむずかしかったです。'},
+        {en:'I have never been to America.',     ja:'アメリカへ行ったことがありません。'},
+        {en:'Please tell me the reason.',        ja:'りゆうを教えてください。'},
+        {en:'We enjoyed talking together.',      ja:'いっしょに話すのを楽しみました。'},
+        {en:'This is the biggest city in Japan.',ja:'ここは日本でいちばん大きな町です。'},
+        {en:'I hope you will get well soon.',    ja:'早くよくなりますように。'},
+        {en:'Something wonderful happened.',     ja:'すばらしいことがおこりました。'}
       ]
     }
   };
